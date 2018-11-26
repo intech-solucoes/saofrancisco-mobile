@@ -1,0 +1,36 @@
+{
+	"name": "saofrancisco",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"build:config-rony": "./node_modules/.bin/cpy src/configs/config.rony.json ./src/ --rename=config.json",
+		"build:config-test": "./node_modules/.bin/cpy src/configs/config.test.json ./src/ --rename=config.json",
+		"build:config-prod": "./node_modules/.bin/cpy src/configs/config.prod.json ./src/ --rename=config.json",
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"android:rony": "yarn build:config-rony && node node_modules/react-native/local-cli/cli.js run-android",
+		"ios:rony": "yarn build:config-rony && node node_modules/react-native/local-cli/cli.js run-ios",
+		"test": "jest"
+	},
+	"dependencies": {
+		"@intechprev/prevsystem-service": "^0.0.10",
+		"@intechprev/react-lib": "^0.0.4",
+		"prop-types": "^15.6.2",
+		"react": "16.6.1",
+		"react-native": "0.57.5",
+		"react-native-gesture-handler": "^1.0.9",
+		"react-native-masked-text": "^1.9.2",
+		"react-native-vector-icons": "^6.1.0",
+		"react-native-version-number": "^0.3.5",
+		"react-navigation": "^3.0.0"
+	},
+	"devDependencies": {
+		"babel-jest": "23.6.0",
+		"cpy-cli": "^2.0.0",
+		"jest": "23.6.0",
+		"metro-react-native-babel-preset": "0.49.2",
+		"react-test-renderer": "16.6.1"
+	},
+	"jest": {
+		"preset": "react-native"
+	}
+}
