@@ -16,8 +16,10 @@ export default class Button extends Component {
     }
 
     render() {
+        var underlayColor = this.props.light ? "transparent" : Variables.colors.primaryDark;
+
         return (
-            <TouchableHighlight style={[Styles.button, this.props.style]} onPress={this.props.onClick } underlayColor={Variables.colors.primaryDark}>
+            <TouchableHighlight style={[Styles.button, this.props.style]} onPress={this.props.onClick } underlayColor={underlayColor}>
                 <View>
                     {this.props.title && 
                         <View style={Styles.buttonView}>

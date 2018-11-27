@@ -15,6 +15,12 @@ export default Styles = StyleSheet.create({
         padding: 5,
         borderRadius: 20
     },
+    buttonLight: {
+        alignItems: 'center',
+        color: Variables.colors.primary,
+        padding: 5,
+        borderRadius: 20
+    },
     buttonView: {
         alignItems: 'center',
     },
@@ -24,7 +30,6 @@ export default Styles = StyleSheet.create({
     },
     textInput: {
         backgroundColor: "white",
-        marginBottom: 5,
         height: 40, 
         padding: 10,
         borderColor: "#FFFFFF"
