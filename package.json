@@ -4,11 +4,14 @@
 	"private": true,
 	"scripts": {
 		"build:config-rony": "./node_modules/.bin/cpy src/configs/config.rony.json ./src/ --rename=config.json",
+		"build:config-israel": "./node_modules/.bin/cpy src/configs/config.israel.json ./src/ --rename=config.json",
 		"build:config-test": "./node_modules/.bin/cpy src/configs/config.test.json ./src/ --rename=config.json",
 		"build:config-prod": "./node_modules/.bin/cpy src/configs/config.prod.json ./src/ --rename=config.json",
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"android:rony": "yarn build:config-rony && node node_modules/react-native/local-cli/cli.js run-android",
+		"android:israel": "yarn build:config-israel && node node_modules/react-native/local-cli/cli.js run-android",
 		"ios:rony": "yarn build:config-rony && node node_modules/react-native/local-cli/cli.js run-ios",
+		"ios:israel": "yarn build:config-israel && node node_modules/react-native/local-cli/cli.js run-ios",
 		"test": "jest"
 	},
 	"dependencies": {

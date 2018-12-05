@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/ronymoura/Documents/Intech/git/saofrancisco-mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hr/values-hr.xml",
+            "outputFile": "/Users/israelcastro/Intech/saofrancisco-mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hr/values-hr.xml",
             "map": [
                 {
-                    "source": "/Users/ronymoura/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/b9b6a3b255b5759818981eee923f7e5a/res/values-hr/values-hr.xml",
+                    "source": "/Users/israelcastro/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/0499e6f2ec2cfb4c252627f31cb112d9/res/values-hr/values-hr.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/Users/ronymoura/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/f0e99000df901ca0a843828ef0360c3a/res/values-hr/values-hr.xml",
+                    "source": "/Users/israelcastro/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/ee548f6a5dc70d0b5911d6741be46884/res/values-hr/values-hr.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

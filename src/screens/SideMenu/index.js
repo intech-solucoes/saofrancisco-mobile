@@ -28,7 +28,7 @@ class SideMenu extends Component {
             loading: false,
             plano: 1,
             planoBD: true,
-            assistido: false
+            assistido: false 
         }
     }
 
@@ -53,7 +53,7 @@ class SideMenu extends Component {
             plano, 
             planoBD,
             assistido: assistido === "true",
-            pensionista: pensionista === "true"
+            pensionista: pensionista === "true" 
         });
     }
 
@@ -67,7 +67,7 @@ class SideMenu extends Component {
 
                     <View style={styles.navSectionStyle}>
 
-                        <MenuItem onPress={this.navigateToScreen('Home')} icon={require("../../assets/ic_home.png")} title="Início" />
+                        <MenuItem onPress={this.navigateToScreen('Login')} icon={require("../../assets/ic_home.png")} title="Início" />
                         <MenuItem onPress={this.navigateToScreen('Dados')} icon={require("../../assets/ic_dados.png")} title="Seus Dados" />
 
                         {!this.state.assistido && !this.state.pensionista &&

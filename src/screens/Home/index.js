@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text, Button, View, StyleSheet, TouchableHighlight, Image, ScrollView, AsyncStorage } from "react-native";
+import { Text, Button, View, StyleSheet, TouchableHighlight, Image, ScrollView, AsyncStorage, Alert } from "react-native";
 //import Spinner from 'react-native-loading-spinner-overlay';
 import Styles, { Variables } from "../../styles";
+import TouchID from 'react-native-touch-id';
 
 const MenuItem = (props) => {
     return (
@@ -23,7 +24,7 @@ const MenuItem = (props) => {
 export default class Home extends Component {
 
     static navigationOptions = {
-        title: "São Francisco"
+        header : null
     }
 
     constructor(props) {
@@ -38,11 +39,65 @@ export default class Home extends Component {
     }
 
     async componentDidMount() {
+
+        var digitalAccess = await AsyncStorage.getItem('digitalAccess');
+        
         this.setState({ loading: true });
         
         await this.carregarPlano();
 
         this.setState({ loading: false });
+
+
+        try {
+            var biometryType = await TouchID.isSupported();
+
+            if (biometryType === 'TouchID') { 
+                // Touch ID is supported on iOS
+                //alert("TouchID"); 
+            } else if (biometryType === 'FaceID') {
+                // Face ID is supported on iOS
+                //alert("FaceID");
+            } else if (biometryType === true) {
+                // Touch ID is supported on Android
+                //alert("Android");
+            }  
+
+            await this.setState({
+                touchIDAvailable: true
+            }); 
+
+
+            
+            if(digitalAccess == 'false'){
+                
+                Alert.alert(
+                    'Leitor de Digital',
+                    'Desejar logar utilizando sua digital?',
+                    [
+                      {text: 'Sim', onPress: () => AsyncStorage.setItem('digitalAccess', 'true') }, 
+                      {text: 'Não', onPress: () => AsyncStorage.setItem('digitalAccess', 'false') }, 
+                    ],
+                    { cancelable: false }
+                ) 
+            }
+            
+
+            
+            
+        } catch(err) {
+            if(err.name === "Touch ID Error") {
+                await this.setState({
+                    touchIDAvailable: false
+                });
+            } else {
+                alert("Ocorreu um erro");
+            }
+        }
+
+
+        
+
     }
 
     navigateToScreen = (route) => {

@@ -27,7 +27,7 @@ export default {
         fontSize: 12
     },
     loginFingerprint: {
-        backgroundColor: Variables.colors.primary,
+        backgroundColor: '#FFF',  
         marginRight: 0,
         borderRadius: 30
     },
