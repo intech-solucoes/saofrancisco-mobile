@@ -24,7 +24,7 @@ const MenuItem = (props) => {
 export default class Home extends Component {
 
     static navigationOptions = {
-        header : null
+        title :  "São Francisco"
     }
 
     constructor(props) {
