@@ -15,7 +15,7 @@ import {
 const MainStack = createStackNavigator({
 	Home: Home,
 	Dados: Dados,
-	Contribuicao: Contribuicao,
+	Contribuicao: Contribuicao
 }, {
 	navigationOptions: {
 		header: (navigationOptions) => <ScreenHeader {...navigationOptions} />
