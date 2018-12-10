@@ -8,12 +8,14 @@ import {
 	Home,
 	Planos,
 	Dados,
+	Contribuicao,
 	SideMenu
 } from "./screens";
 
 const MainStack = createStackNavigator({
 	Home: Home,
 	Dados: Dados,
+	Contribuicao: Contribuicao,
 }, {
 	navigationOptions: {
 		header: (navigationOptions) => <ScreenHeader {...navigationOptions} />

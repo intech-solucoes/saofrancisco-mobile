@@ -70,6 +70,7 @@ class SideMenu extends Component {
 
                         <MenuItem onPress={this.navigateToScreen('Home')} icon={"home"} title="Início" />
                         <MenuItem onPress={this.navigateToScreen('Dados')} icon={"user"} title="Seus Dados" />
+                        <MenuItem onPress={this.navigateToScreen('Contribuicao')} icon={"closed-captioning"} title="Sua Contribuição" />
                         
                         {(this.state.assistido || this.state.pensionista) && 
                             <MenuItem onPress={this.navigateToScreen('Contracheque')} icon={"closed-captioning"} title="Demonstrativo de Pagamento" />}
