@@ -5,15 +5,15 @@ export default {
         flex: 1,
     },
     header: {
-        backgroundColor: Variables.colors.primary,
+        backgroundColor: "#FFF",
         flex: 1,
         padding: 30,
         paddingTop: 60,
         alignItems: "center"
     },
     headerImage: {
-        height: 70,
-        width: 70
+        height: 60,
+        width: 200
     },
     navSectionStyle: {
         paddingTop: 10
@@ -24,12 +24,10 @@ export default {
         flexDirection: 'row'
     },
     navIcon: {
-        width: 26,
-        height: 26,
-        marginRight: 10
+        marginRight: 10,
+        color: Variables.colors.secondary
     },
     navText: {
-        marginTop: 5
     },
     footerContainer: {
         padding: 20

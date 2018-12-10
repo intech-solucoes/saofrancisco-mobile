@@ -84,7 +84,7 @@ export default class Login extends React.Component {
     fingerLogin = () => { 
         try {
             TouchID.authenticate('Use sua digital para se autenticar').then(success =>
-                this.props.navigation.navigate('Main')
+                this.props.navigation.navigate('Planos')
             )
             .catch(() => {
                 this.setState({ digitalAccess: false })
@@ -99,7 +99,7 @@ export default class Login extends React.Component {
 
 
     firstAccess = async () => {
-        
+        this.props.navigation.navigate('PrimeiroAcesso');     
     }
 
     login = async () => {
@@ -120,14 +120,13 @@ export default class Login extends React.Component {
             } 
             else {
                 var result = await UsuarioService.Login(this.state.cpf, this.state.senha);
-                //console.warn(result)
                 //await AsyncStorage.setItem('pensionista', result.data.pensionista.toString());
                 await AsyncStorage.setItem('token', result.data.AccessToken);
                 
                 await AsyncStorage.setItem('digitalAccess', 'false');
                 
                 await this.setState({ loading: false });
-                this.props.navigation.navigate('Main');  
+                this.props.navigation.navigate('Planos');  
             }
 
         } catch (ex) {

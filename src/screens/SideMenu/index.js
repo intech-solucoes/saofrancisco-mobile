@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { ScrollView, Text, View, Image, TouchableHighlight, AsyncStorage } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { NavigationActions } from 'react-navigation';
 import VersionNumber from 'react-native-version-number';
 
@@ -11,7 +12,7 @@ const MenuItem = (props) => {
     return (
         <TouchableHighlight onPress={props.onPress} underlayColor={Variables.colors.gray}>
             <View style={styles.navItemStyle}>
-                <Image source={props.icon} style={styles.navIcon} />
+                <Icon name={props.icon} style={styles.navIcon} size={20} />
                 <Text style={styles.navText}>
                     {props.title}
                 </Text>
@@ -28,7 +29,7 @@ class SideMenu extends Component {
             loading: false,
             plano: 1,
             planoBD: true,
-            assistido: false 
+            assistido: false
         }
     }
 
@@ -53,7 +54,7 @@ class SideMenu extends Component {
             plano, 
             planoBD,
             assistido: assistido === "true",
-            pensionista: pensionista === "true" 
+            pensionista: pensionista === "true"
         });
     }
 
@@ -67,29 +68,21 @@ class SideMenu extends Component {
 
                     <View style={styles.navSectionStyle}>
 
-                        <MenuItem onPress={this.navigateToScreen('Login')} icon={require("../../assets/ic_home.png")} title="Início" />
-                        <MenuItem onPress={this.navigateToScreen('Dados')} icon={require("../../assets/ic_dados.png")} title="Seus Dados" />
-
-                        {!this.state.assistido && !this.state.pensionista &&
-                            <MenuItem onPress={this.navigateToScreen('Contribuicao')} icon={require("../../assets/ic_contribuicao.png")} title="Sua Contribuição" />}
+                        <MenuItem onPress={this.navigateToScreen('Home')} icon={"home"} title="Início" />
+                        <MenuItem onPress={this.navigateToScreen('Dados')} icon={"user"} title="Seus Dados" />
                         
                         {(this.state.assistido || this.state.pensionista) && 
-                            <MenuItem onPress={this.navigateToScreen('Contracheque')} icon={require("../../assets/ic_contracheque.png")} title="Demonstrativo de Pagamento" />}
+                            <MenuItem onPress={this.navigateToScreen('Contracheque')} icon={"closed-captioning"} title="Demonstrativo de Pagamento" />}
                         
                         {(this.state.assistido || this.state.pensionista) && 
-                            <MenuItem onPress={this.navigateToScreen('Informe')} icon={require("../../assets/ic_contracheque.png")} title="Informe de Rendimentos" />}
-                        
-                        <MenuItem onPress={this.navigateToScreen('Emprestimo')} icon={require("../../assets/ic_emprestimo.png")} title="Empréstimo" />
+                            <MenuItem onPress={this.navigateToScreen('Informe')} icon={"chart-pie"} title="Informe de Rendimentos" />}
                     
                         {(!this.state.assistido && !this.state.pensionista) && 
-                            <MenuItem onPress={this.navigateToScreen('ExtratoAnos')} icon={require("../../assets/ic_contracheque.png")} title="Extrato de Contribuições" />}
-                    
-                        {(!this.state.planoBD && !this.state.pensionista) && 
-                            <MenuItem onPress={this.navigateToScreen('Saldo')} icon={require("../../assets/ic_saldo.png")} title="Seu Saldo" />}
+                            <MenuItem onPress={this.navigateToScreen('ExtratoAnos')} icon={"file"} title="Extrato de Contribuições" />}
 
-                        <MenuItem onPress={this.navigateToScreen('Relacionamento')} icon={require("../../assets/ic_chat.png")} title="Relacionamento" />
-                        <MenuItem onPress={this.navigateToScreen('Planos')} icon={require("../../assets/ic_plano.png")} title="Selecionar Plano" />
-                        <MenuItem onPress={this.navigateToScreen('Login')} icon={require("../../assets/ic_out.png")} title="Sair" />
+                        <MenuItem onPress={this.navigateToScreen('Relacionamento')} icon={"comment"} title="Relacionamento" />
+                        <MenuItem onPress={this.navigateToScreen('Planos')} icon={"exchange-alt"} title="Selecionar Plano" />
+                        <MenuItem onPress={this.navigateToScreen('Login')} icon={"door-open"} title="Sair" />
                     </View>
                 </ScrollView>
 
