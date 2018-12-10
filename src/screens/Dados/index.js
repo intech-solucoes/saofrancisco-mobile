@@ -15,7 +15,7 @@ import { DadosPessoaisService, PlanoService, FuncionarioService, ProcessoBenefic
 export default class Dados extends Component {
 
     static navigationOptions = {
-        header : null
+        title: "Seus Dados"
     }
     
     constructor(props) {
