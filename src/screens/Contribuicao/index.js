@@ -26,7 +26,7 @@ const ViewRubricas = (props) => (
 export default class ContribuicaoScreen extends Component {
 
     static navigationOptions = {
-        title: "Sua Contribuicao"
+        title: "Sua Contribuicao" 
     }
 
     constructor(props) {
