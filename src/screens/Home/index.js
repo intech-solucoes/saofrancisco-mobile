@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Button, View, StyleSheet, TouchableHighlight, Image, ScrollView, AsyncStorage, Alert } from "react-native";
-//import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Styles, { Variables } from "../../styles";
 import TouchID from 'react-native-touch-id';
 
@@ -123,7 +123,8 @@ export default class Home extends Component {
     render() {
         return (
             <View>
-
+                <Spinner visible={this.state.loading} cancelable={true} />
+                
                 <ScrollView contentContainerStyle={Styles.scrollContainer}>
                     <MenuItem onPress={() => this.navigateToScreen("Dados")} icon={require("../../assets/ic_dados.png")} title={"Dados Pessoais"} subtitle={"Confira seus dados cadastrais"}  />
 

@@ -77,7 +77,7 @@ export default class Dados extends Component {
     render() {
         return (
             <View>
-                {/* <Spinner visible={this.state.loading} cancelable={true} /> */}
+                <Spinner visible={this.state.loading} cancelable={true} />
 
                 {!this.state.loading &&
                     <ScrollView contentContainerStyle={Styles.scrollContainer}>

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, AsyncStorage, StatusBar } from 'react-native';
-//import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import Styles, { Variables } from "../../styles";
 import { Button } from "../../components";
@@ -75,13 +75,13 @@ export default class PlanosScreen extends React.Component {
         return (
             <View style={[Styles.content, { paddingTop: 50 }]}>
 
-                {/* <Spinner visible={this.state.loading} cancelable={true} /> */}
+                <Spinner visible={this.state.loading} cancelable={true} />
 
                 {!this.state.loading &&
                     <View>
                         <Text style={Styles.h3}>Olá,</Text>
                         <Text style={[ Styles.h1, styles.header ]}>{this.state.dados.dadosPessoais.NOME_ENTID}</Text>
-                        <Text style={styles.subheader}>Selecione um de seus planos contratados com a Sabesprev</Text>
+                        <Text style={styles.subheader}>Selecione um de seus planos contratados com a São Francisco</Text>
         
                         {this.state.planos.map((plano, index) => (
                             <Button key={index} title={plano.DS_PLANO} subtitle={plano.DS_CATEGORIA} 
