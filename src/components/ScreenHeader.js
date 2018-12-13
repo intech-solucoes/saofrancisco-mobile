@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, Platform, StatusBar, StyleSheet, ToolbarAndroid } from "react-native";
+import { Text, View, Platform, StatusBar, StyleSheet, ToolbarAndroid, TouchableOpacity } from "react-native";
 import { Variables } from "../styles";
-import Icon from 'react-native-vector-icons/Ionicons'
+import { Container, Header, Left, Body, Right, Button, Title, Icon } from 'native-base';
+
 
 export default class ScreenHeader extends Component {
     render() {
@@ -25,14 +26,39 @@ export default class ScreenHeader extends Component {
                 { Platform.OS === 'android' && Platform.Version >= 20 ?
                     <View style={{ height: 24, backgroundColor: Variables.colors.primary }} />
                     : null }
-                <Icon.ToolbarAndroid
-                    navIconName={openDrawer ? 'md-menu': 'md-arrow-back'}
-                    onIconClicked={onLeftPress}
-                    style={{ height: 56, backgroundColor: Variables.colors.primary}}
-                    titleColor={'white'}
-                    title={descriptor.options.title} />
+                
+                
+                    <Header style={{backgroundColor: Variables.colors.primary}}> 
+                        
+
+                        <Left>
+                            { openDrawer ? 
+                                    null : 
+                                        <TouchableOpacity onPress={() => this.props.navigation.pop() } style={{ padding: 10 }}> 
+                                            <Icon name="arrow-back" style={{ color: 'white' }} /> 
+                                        </TouchableOpacity>
+                            }  
+                        </Left> 
+                        <Body>
+                            <Text style={{ color:"white", fontWeight: 'bold' }} >{descriptor.options.title}</Text>
+                        </Body>
+                        <Right>
+                            <TouchableOpacity onPress={() => this.props.navigation.openDrawer() } style={{ padding: 10 }}>  
+                                <Icon ios='ios-menu' android="md-menu" style={{ color: 'white' }} />
+                            </TouchableOpacity>
+                        </Right>
+                    </Header>    
+
+
+
+
+                 
+
+
                 <StatusBar translucent backgroundColor="rgba(0, 0, 0, 0.20)" animated />
-            </View>
+                
+                
+            </View> 
             
         );
     }

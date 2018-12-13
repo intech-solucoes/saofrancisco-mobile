@@ -16,7 +16,7 @@ const MainStack = createStackNavigator({
 	Home: Home,
 	Dados: Dados,
 	Contribuicao: Contribuicao
-}, {
+}, { 
 	navigationOptions: {
 		header: (navigationOptions) => <ScreenHeader {...navigationOptions} />
 	}
@@ -25,6 +25,7 @@ const MainStack = createStackNavigator({
 const MainDrawer = createDrawerNavigator({
 	Main: MainStack
 }, {
+	drawerPosition: 'right', 
 	contentComponent: SideMenu,
 	navigationOptions: {
 		header: null
