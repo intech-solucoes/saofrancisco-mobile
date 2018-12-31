@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, BackHandler, AsyncStorage } from "react-native";
+import { Text, View, ScrollView, BackHandler, AsyncStorage, Image } from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Styles, { Variables } from "../../styles";
-import { ScreenHeader, ElevatedView, CampoEstatico } from "../../components";
+import { ScreenHeader, ElevatedView, CampoEstatico, Button } from "../../components";
 
 import { DadosPessoaisService, PlanoService, FuncionarioService, ProcessoBeneficioService } from "@intechprev/prevsystem-service";
 
-// const config = require("../../config.json");
-// const dadosPessoaisService  = new DadosPessoaisService(config);
-// const planoService = new PlanoService(config);
-// const funcionarioService = new FuncionarioService(config);
+import ImagePicker from 'react-native-image-picker';
+
+const options = {
+    title: 'Select Avatar',
+    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+
 
 export default class Dados extends Component {
 
+    
+    
     static navigationOptions = {
         title: "Seus Dados"
     }
@@ -54,6 +63,7 @@ export default class Dados extends Component {
         await this.carregarPlano();
 
         await this.setState({ loading: false });
+
     }
 
     async carregarDadosPessoais() {
@@ -74,6 +84,34 @@ export default class Dados extends Component {
         await this.setState({ plano: result.data });
     }
 
+
+    teste = () => { 
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+          
+            if (response.didCancel) {
+              console.log('User cancelled image picker');
+            } else if (response.error) {
+              console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+              console.log('User tapped custom button: ', response.customButton);
+            } else {
+              const source = { uri: response.uri };
+          
+              // You can also display the image using data:
+              // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+                
+
+              this.setState({ 
+                avatarSource: source, 
+              });
+              
+            }
+        }); 
+
+        
+    } 
+
     render() {
         return (
             <View>
@@ -81,6 +119,9 @@ export default class Dados extends Component {
 
                 {!this.state.loading &&
                     <ScrollView contentContainerStyle={Styles.scrollContainer}>
+
+                        <Image source={this.state.avatarSource}  style={{height: 120, width: 120}}/>
+
                         <ElevatedView elevation={3} style={{ padding: 10, marginBottom: 10 }}>
                             <CampoEstatico titulo={"Nome"} valor={this.state.dados.dadosPessoais.NOME_ENTID} />
                         </ElevatedView>
@@ -105,8 +146,14 @@ export default class Dados extends Component {
                                 }
                             </ElevatedView>
                         }
+
+                    <Button title="Entrar" onClick={this.teste}  />
                     </ScrollView>
                 }
+
+            
+
+            
                 
             </View>
         )

@@ -9,7 +9,7 @@ import { Button } from "../../components";
 import Container from "./container";
 import loginStyles from "./styles"; 
 
-import { UsuarioService } from "@intechprev/prevsystem-service";
+import { UsuarioService, FuncionarioService, PlanoService } from "@intechprev/prevsystem-service";
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -119,14 +119,26 @@ export default class Login extends React.Component {
                 this.fingerLogin();
             } 
             else {
-                var result = await UsuarioService.Login(this.state.cpf, this.state.senha);
-                //await AsyncStorage.setItem('pensionista', result.data.pensionista.toString());
-                await AsyncStorage.setItem('token', result.data.AccessToken);
-                
-                await AsyncStorage.setItem('digitalAccess', 'false');
-                
-                await this.setState({ loading: false });
-                this.props.navigation.navigate('Planos');  
+                var { data: login } = await UsuarioService.Login(this.state.cpf, this.state.senha);
+
+                await AsyncStorage.setItem('pensionista', login.Pensionista.toString());
+                await AsyncStorage.setItem('token', login.AccessToken);
+
+                var { data: funcionarioData } = await FuncionarioService.Buscar();
+
+                await AsyncStorage.setItem("fundacao", funcionarioData.funcionario.CD_FUNDACAO);
+                await AsyncStorage.setItem("empresa", funcionarioData.funcionario.CD_EMPRESA);
+
+                var { data: planos } = await PlanoService.Buscar();
+                if(planos.length > 1)
+                    this.props.navigation.navigate('Planos');
+                else {
+                    var plano = planos[0];
+                    await AsyncStorage.setItem('plano', plano.CD_PLANO.toString());
+                    await AsyncStorage.setItem('assistido', (plano.DS_CATEGORIA === "ASSISTIDO").toString());
+
+                    this.props.navigation.navigate('Home');
+                } 
             }
 
         } catch (ex) {

@@ -21,8 +21,8 @@ export default class PrimeiroAcesso extends Component {
 
         // Cria o state do componente
         this.state = {
-            cpf: "12178513727",
-            dataNascimento: "24/10/1988",
+            cpf: "23862092100",
+            dataNascimento: "17/04/1939",
             loading: false
         };
 	}

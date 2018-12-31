@@ -9,13 +9,29 @@ import {
 	Planos,
 	Dados,
 	Contribuicao,
-	SideMenu
+	SideMenu,
+	Relacionamento,
+	Saldo,
+	Contracheque,
+	ContrachequeDetalhe,
+	InformeRendimentos,
+	ExtratoAnos,
+	ExtratoMeses,
+	ExtratoDetalhe,
 } from "./screens";
 
 const MainStack = createStackNavigator({
 	Home: Home,
 	Dados: Dados,
-	Contribuicao: Contribuicao
+	Contribuicao: Contribuicao,
+	Relacionamento: Relacionamento,
+	Saldo: Saldo,
+	Contracheque : Contracheque,
+	ContrachequeDetalhe : ContrachequeDetalhe,
+	InformeRendimentos: InformeRendimentos,
+	ExtratoAnos: ExtratoAnos,
+	ExtratoMeses: ExtratoMeses,
+	ExtratoDetalhe: ExtratoDetalhe,
 }, { 
 	navigationOptions: {
 		header: (navigationOptions) => <ScreenHeader {...navigationOptions} />

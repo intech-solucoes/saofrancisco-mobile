@@ -76,7 +76,7 @@ class SideMenu extends Component {
                             <MenuItem onPress={this.navigateToScreen('Contracheque')} icon={"closed-captioning"} title="Demonstrativo de Pagamento" />}
                         
                         {(this.state.assistido || this.state.pensionista) && 
-                            <MenuItem onPress={this.navigateToScreen('Informe')} icon={"chart-pie"} title="Informe de Rendimentos" />}
+                            <MenuItem onPress={this.navigateToScreen('InformeRendimentos')} icon={"chart-pie"} title="Informe de Rendimentos" />}
                     
                         {(!this.state.assistido && !this.state.pensionista) && 
                             <MenuItem onPress={this.navigateToScreen('ExtratoAnos')} icon={"file"} title="Extrato de Contribuições" />}

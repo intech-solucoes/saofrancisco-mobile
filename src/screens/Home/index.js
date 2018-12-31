@@ -135,7 +135,7 @@ export default class Home extends Component {
                         <MenuItem onPress={() => this.navigateToScreen('Contracheque')} icon={require("../../assets/ic_contracheque.png")} title="Demonstrativo de Pagamento" subtitle={"Consulte aqui seus contracheques"} />}
                     
                     {(this.state.assistido || this.state.pensionista) && 
-                        <MenuItem onPress={() => this.navigateToScreen('Informe')} icon={require("../../assets/ic_contracheque.png")} title="Informe de Rendimentos" subtitle={"Consulte aqui seus informes de rendimento"} />}
+                        <MenuItem onPress={() => this.navigateToScreen('InformeRendimentos')} icon={require("../../assets/ic_contracheque.png")} title="Informe de Rendimentos" subtitle={"Consulte aqui seus informes de rendimento"} />}
                     
                     <MenuItem onPress={() => this.navigateToScreen('Emprestimo')} icon={require("../../assets/ic_emprestimo.png")} title="Empréstimo" subtitle={"Consulte aqui seus empréstimos"} />
                 

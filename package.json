@@ -23,6 +23,7 @@
 		"react-native": "0.57.5",
 		"react-native-easy-grid": "^0.2.0",
 		"react-native-gesture-handler": "^1.0.9",
+		"react-native-image-picker": "^0.27.2",
 		"react-native-loading-spinner-overlay": "^1.0.1",
 		"react-native-masked-text": "^1.9.2",
 		"react-native-touch-id": "^4.3.0",
