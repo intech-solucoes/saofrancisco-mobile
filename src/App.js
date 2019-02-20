@@ -18,6 +18,7 @@ import {
 	ExtratoAnos,
 	ExtratoMeses,
 	ExtratoDetalhe,
+	TrocarSenha
 } from "./screens";
 
 const MainStack = createStackNavigator({
@@ -32,6 +33,7 @@ const MainStack = createStackNavigator({
 	ExtratoAnos: ExtratoAnos,
 	ExtratoMeses: ExtratoMeses,
 	ExtratoDetalhe: ExtratoDetalhe,
+	TrocarSenha: TrocarSenha,
 }, { 
 	navigationOptions: {
 		header: (navigationOptions) => <ScreenHeader {...navigationOptions} />

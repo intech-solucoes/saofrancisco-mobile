@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn andoid:israel
+  /usr/local/bin/node /usr/local/bin/yarn start:ios
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Xamarin Workbooks.app/Contents/SharedSupport/path-bin:/usr/local/mongodb/bin:/Users/israelcastro/Library/Android/sdk/tools:/Users/israelcastro/Library/Android/sdk/platform-tools
@@ -31,7 +31,7 @@ npm manifest:
   		"test": "jest"
   	},
   	"dependencies": {
-  		"@intechprev/prevsystem-service": "^0.0.10",
+  		"@intechprev/prevsystem-service": "^1.0.2",
   		"@intechprev/react-lib": "^0.0.4",
   		"native-base": "^2.8.1",
   		"prop-types": "^15.6.2",
@@ -39,6 +39,7 @@ npm manifest:
   		"react-native": "0.57.5",
   		"react-native-easy-grid": "^0.2.0",
   		"react-native-gesture-handler": "^1.0.9",
+  		"react-native-image-picker": "^0.27.2",
   		"react-native-loading-spinner-overlay": "^1.0.1",
   		"react-native-masked-text": "^1.9.2",
   		"react-native-touch-id": "^4.3.0",
@@ -627,13 +628,21 @@ Lockfile:
       lodash "^4.17.10"
       to-fast-properties "^2.0.0"
   
-  "@intechprev/prevsystem-service@^0.0.10":
-    version "0.0.10"
-    resolved "https://registry.yarnpkg.com/@intechprev/prevsystem-service/-/prevsystem-service-0.0.10.tgz#ed60a129003868cfe2a3b1cbb4261ff4e5eab73e"
+  "@intechprev/prevsystem-service@^1.0.2":
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/@intechprev/prevsystem-service/-/prevsystem-service-1.0.2.tgz#24bce1e7e4934d5aa05ac859763a8be6e21c1f76"
+    dependencies:
+      "@intechprev/service" "^1.0.2"
   
   "@intechprev/react-lib@^0.0.4":
     version "0.0.4"
     resolved "https://registry.yarnpkg.com/@intechprev/react-lib/-/react-lib-0.0.4.tgz#d29b8fea130c899c2871042c3921625378d037bd"
+    dependencies:
+      axios "^0.18.0"
+  
+  "@intechprev/service@^1.0.2":
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/@intechprev/service/-/service-1.0.2.tgz#fb484c92442df49e863418a2886401c3d40c4225"
     dependencies:
       axios "^0.18.0"
   
@@ -4488,6 +4497,10 @@ Lockfile:
       invariant "^2.2.2"
       prop-types "^15.5.10"
   
+  react-native-image-picker@^0.27.2:
+    version "0.27.2"
+    resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.27.2.tgz#c44195feb1a4855eead36fadacc8b82828329b2a"
+  
   react-native-iphone-x-helper@^1.0.1:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.0.tgz#9f8a376eb00bc712115abff4420318a0063fa796"
@@ -5863,7 +5876,7 @@ Lockfile:
       yargs-parser "^7.0.0"
 
 Trace: 
-  Error: Command "andoid:israel" not found. Did you mean "android:israel"?
+  Error: Command "start:ios" not found.
       at new MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
       at /usr/local/lib/node_modules/yarn/lib/cli.js:87307:17
       at Generator.next (<anonymous>)

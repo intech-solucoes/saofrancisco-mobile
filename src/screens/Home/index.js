@@ -4,6 +4,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Styles, { Variables } from "../../styles";
 import TouchID from 'react-native-touch-id';
 
+import { DadosPessoaisService } from "@intechprev/prevsystem-service";
+
 const MenuItem = (props) => {
     return (
         <TouchableHighlight onPress={props.onPress} style={styles.menuItemContainer} underlayColor={Variables.colors.gray}>
@@ -24,8 +26,8 @@ const MenuItem = (props) => {
 export default class Home extends Component {
 
     static navigationOptions = {
-        title :  ""
-    } 
+        title: ""
+    }
 
     constructor(props) {
         super(props);
@@ -34,17 +36,28 @@ export default class Home extends Component {
             loading: false,
             plano: 1,
             planoBD: true,
-            assistido: false
+            assistido: false,
+            dados: {
+                dadosPessoais: {}
+            },
         }
+
+        this.carregarDadosPessoais = this.carregarDadosPessoais.bind(this);
+    }
+
+    async carregarDadosPessoais() {
+        var result = await DadosPessoaisService.Buscar();
+        await this.setState({ dados: result.data });
     }
 
     async componentDidMount() {
 
         var digitalAccess = await AsyncStorage.getItem('digitalAccess');
-        
+
         this.setState({ loading: true });
-        
+
         await this.carregarPlano();
+        await this.carregarDadosPessoais();
 
         this.setState({ loading: false });
 
@@ -52,7 +65,7 @@ export default class Home extends Component {
         try {
             var biometryType = await TouchID.isSupported();
 
-            if (biometryType === 'TouchID') { 
+            if (biometryType === 'TouchID') {
                 // Touch ID is supported on iOS
                 //alert("TouchID"); 
             } else if (biometryType === 'FaceID') {
@@ -61,32 +74,32 @@ export default class Home extends Component {
             } else if (biometryType === true) {
                 // Touch ID is supported on Android
                 //alert("Android");
-            }  
+            }
 
             await this.setState({
                 touchIDAvailable: true
-            }); 
+            });
 
+            console.warn(digitalAccess)
 
-            
-            if(digitalAccess == 'false'){
-                
+            if (digitalAccess == 'false') {
+
                 Alert.alert(
                     'Leitor de Digital',
                     'Desejar logar utilizando sua digital?',
                     [
-                      {text: 'Sim', onPress: () => AsyncStorage.setItem('digitalAccess', 'true') }, 
-                      {text: 'Não', onPress: () => AsyncStorage.setItem('digitalAccess', 'false') }, 
+                        { text: 'Sim', onPress: () => AsyncStorage.setItem('digitalAccess', 'true') },
+                        { text: 'Não', onPress: () => AsyncStorage.setItem('digitalAccess', 'false') },
                     ],
                     { cancelable: false }
-                ) 
+                )
             }
-            
 
-            
-            
-        } catch(err) {
-            if(err.name === "Touch ID Error") {
+
+
+
+        } catch (err) {
+            if (err.name === "Touch ID Error") {
                 await this.setState({
                     touchIDAvailable: false
                 });
@@ -96,7 +109,7 @@ export default class Home extends Component {
         }
 
 
-        
+
 
     }
 
@@ -109,8 +122,8 @@ export default class Home extends Component {
         var assistido = await AsyncStorage.getItem("assistido");
         var planoBD = plano === "0001";
 
-        await this.setState({ 
-            plano, 
+        await this.setState({
+            plano,
             planoBD,
             assistido: assistido === "true"
         });
@@ -122,34 +135,105 @@ export default class Home extends Component {
 
     render() {
         return (
-            <View>
-                <Spinner visible={this.state.loading} cancelable={true} />
-                
-                <ScrollView contentContainerStyle={Styles.scrollContainer}>
-                    <MenuItem onPress={() => this.navigateToScreen("Dados")} icon={require("../../assets/ic_dados.png")} title={"Dados Pessoais"} subtitle={"Confira seus dados cadastrais"}  />
+            <View style={{ padding: 5 }}>
 
-                    {!this.state.assistido && !this.state.pensionista &&
-                        <MenuItem onPress={() => this.navigateToScreen('Contribuicao')} icon={require("../../assets/ic_contribuicao.png")} title="Sua Contribuição" subtitle={"Visualize e entenda sua contribuição"} />}
-                        
-                    {(this.state.assistido || this.state.pensionista) && 
-                        <MenuItem onPress={() => this.navigateToScreen('Contracheque')} icon={require("../../assets/ic_contracheque.png")} title="Demonstrativo de Pagamento" subtitle={"Consulte aqui seus contracheques"} />}
-                    
-                    {(this.state.assistido || this.state.pensionista) && 
-                        <MenuItem onPress={() => this.navigateToScreen('InformeRendimentos')} icon={require("../../assets/ic_contracheque.png")} title="Informe de Rendimentos" subtitle={"Consulte aqui seus informes de rendimento"} />}
-                    
-                    <MenuItem onPress={() => this.navigateToScreen('Emprestimo')} icon={require("../../assets/ic_emprestimo.png")} title="Empréstimo" subtitle={"Consulte aqui seus empréstimos"} />
-                
-                    {(!this.state.assistido && !this.state.pensionista) && 
-                        <MenuItem onPress={() => this.navigateToScreen('ExtratoAnos')} icon={require("../../assets/ic_contracheque.png")} title="Extrato de Contribuições" subtitle={"Visualize o extrato de suas contribuições"} />}
-                
-                    {(!this.state.planoBD && !this.state.pensionista) && 
-                        <MenuItem onPress={() => this.navigateToScreen('Saldo')} icon={require("../../assets/ic_saldo.png")} title="Seu Saldo" subtitle={"Visualize seu saldo"} />}
-                    
-                    <MenuItem title={"Relacionamento"} subtitle={"Envie aqui suas mensagens com suas duvidas"} icon={require("../../assets/ic_chat.png")} onPress={() => this.navigateToScreen("Relacionamento")} />
-                    <MenuItem title={"Selecionar Plano"} subtitle={"Escolha outro plano"} icon={require("../../assets/ic_plano.png")} onPress={() => this.navigateToScreen("Planos")} />
-                    <MenuItem title={"Sair"} subtitle={"Sair do aplicativo"} icon={require("../../assets/ic_out.png")} onPress={() => this.logout()} />
-                </ScrollView>
+                <View style={{ padding: 10 }}>
+                    <Text style={[Styles.h4, styles.fontColor]}>Olá,</Text>
+                    <Text style={[Styles.h3, styles.header, styles.fontColor]}>{this.state.dados.dadosPessoais.NOME_ENTID}</Text>
+                </View>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ width: '50%', padding: 10 }}>
+                        <View style={{ height: 80, backgroundColor: '#CDCDF9', borderRadius: 10 }}>
+                            <View style={{ height: '20%', alignItems: 'center', margin: 5 }}>
+                                <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}> SALDO ACUMULADO </Text>
+                            </View>
+                            <View style={{ height: '70%', alignItems: 'center', padding: 5 }}>
+                                <Text style={{ color: '#9689FD', fontSize: 22, fontWeight: 'bold' }}> R$ 70.000</Text>
+                            </View>
+                        </View>
+
+                    </View>
+                    <View style={{ width: '50%', padding: 10 }}>
+                        <View style={{ height: 80, backgroundColor: '#B3E9CA', borderRadius: 10 }}>
+                            <View style={{ height: '20%', alignItems: 'center', margin: 5 }}>
+                                <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}> MINHA CONTRIBUIÇÃO </Text>
+                            </View>
+                            <View style={{ height: '70%', alignItems: 'center', padding: 10 }}>
+                                <Text style={{ color: '#5BB97F', fontSize: 22, fontWeight: 'bold' }}> R$ 70.000</Text>
+                            </View>
+                        </View>
+
+                    </View>
+
+
+                </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                    <View style={{ width: '50%', padding: 10 }}>
+                        <View style={{ height: 80, backgroundColor: '#B5E1F3', borderRadius: 10 }}>
+                            <View style={{ height: '20%', alignItems: 'center', margin: 5 }}>
+                                <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}> PATROCINADOR </Text>
+                            </View>
+                            <View style={{ height: '70%', alignItems: 'center', padding: 5 }}>
+                                <Text style={{ color: '#7DC7E9', fontSize: 22, fontWeight: 'bold' }}> R$ 70.000</Text>
+                            </View>
+                        </View>
+
+                    </View>
+                    <View style={{ width: '50%', padding: 10 }}>
+                        <View style={{ height: 80, backgroundColor: '#F3CCD9', borderRadius: 10 }}>
+                            <View style={{ height: '20%', alignItems: 'center', margin: 5 }}>
+                                <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}> RENDIMENTO </Text>
+                            </View>
+                            <View style={{ height: '70%', alignItems: 'center', padding: 10 }}>
+                                <Text style={{ color: '#EA769A', fontSize: 22, fontWeight: 'bold' }}> R$ 70.000</Text>
+                            </View>
+                        </View>
+
+                    </View>
+
+
+                </View>
+
+                <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <View style={{ width: '100%', padding: 10 }}>
+                        <View style={{ height: 80, backgroundColor: '#B3E9CA', padding: 10, borderRadius: 10 }}>
+                            <View style={{ height: '20%', alignItems: 'center' }}>
+                                <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}> SALÁRIO DE PARTICIPAÇÃO </Text>
+                            </View>
+                            <View style={{ height: '70%', alignItems: 'center', padding: 10 }}>
+                                <Text style={{ color: '#5BB97F', fontSize: 22, fontWeight: 'bold' }}> R$ 70.000</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{ width: '100%', padding: 10 }}>
+                        <View style={{ height: 80, backgroundColor: '#B5E1F3', padding: 10, borderRadius: 10 }}>
+                            <View style={{ height: '20%', alignItems: 'center' }}>
+                                <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}> MINHA ULTIMA CONTRIBUIÇÃO </Text>
+                            </View>
+                            <View style={{ height: '70%', alignItems: 'center', padding: 10 }}>
+                                <Text style={{ color: '#7FC8E9', fontSize: 22, fontWeight: 'bold' }}> R$ 70.000</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{ width: '100%', padding: 10 }}>
+                        <View style={{ height: 80, backgroundColor: '#F3CCD9', padding: 10, borderRadius: 10 }}>
+                            <View style={{ height: '20%', alignItems: 'center' }}>
+                                <Text style={{ color: '#FFFFFF', fontSize: 12, fontWeight: 'bold' }}> ULTIMA CONTRIB. PATROCINADORA </Text>
+                            </View>
+                            <View style={{ height: '70%', alignItems: 'center', padding: 10 }}>
+                                <Text style={{ color: '#EA769A', fontSize: 22, fontWeight: 'bold' }}> R$ 70.000</Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+
+
+
+
             </View>
+
         )
     }
 };
@@ -167,7 +251,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     menuItemIconContainer: {
-        justifyContent: 'center', 
+        justifyContent: 'center',
         alignItems: 'center'
     },
     menuItemIcon: {
@@ -184,5 +268,8 @@ const styles = StyleSheet.create({
     },
     menuItemContentSubtitle: {
         flex: 2
+    },
+    fontColor: {
+        color: '#7C7C7C',
     }
 });

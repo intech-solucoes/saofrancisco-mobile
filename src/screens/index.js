@@ -13,6 +13,7 @@ import InformeRendimentos from "./InformeRendimentos";
 import ExtratoAnos from "./Extrato";
 import ExtratoMeses from "./Extrato/meses";
 import ExtratoDetalhe from "./Extrato/detalhe";
+import TrocarSenha from "./TrocarSenha";
 
 
 export {
@@ -30,5 +31,6 @@ export {
     InformeRendimentos,
     ExtratoAnos,
     ExtratoMeses,
-    ExtratoDetalhe
+    ExtratoDetalhe,
+    TrocarSenha 
 }

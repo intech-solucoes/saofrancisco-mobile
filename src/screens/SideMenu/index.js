@@ -82,6 +82,7 @@ class SideMenu extends Component {
                             <MenuItem onPress={this.navigateToScreen('ExtratoAnos')} icon={"file"} title="Extrato de Contribuições" />}
 
                         <MenuItem onPress={this.navigateToScreen('Relacionamento')} icon={"comment"} title="Relacionamento" />
+                        <MenuItem onPress={this.navigateToScreen('TrocarSenha')} icon={"unlock"} title="Trocar Senha" />
                         <MenuItem onPress={this.navigateToScreen('Planos')} icon={"exchange-alt"} title="Selecionar Plano" />
                         <MenuItem onPress={this.navigateToScreen('Login')} icon={"door-open"} title="Sair" />
                     </View>

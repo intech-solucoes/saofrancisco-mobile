@@ -2,19 +2,27 @@ import { Variables } from "../../styles";
 
 export default {
     container: {
-        flex: 1,
         backgroundColor: "#E9E9E9"
     },
-    content: {
-        flex: 1,
-        padding: 100,
+    header: {
+        paddingHorizontal: 100,
+        paddingVertical: 50,
+        marginTop: 40,
         alignItems: "center"
     },
-    logo: {
-        height: 120,
-        width: 120
+    subtitulo: {
+        marginBottom: 30,
+        alignItems: "center"
     },
-    footer: {
+    subtituloTexto: {
+        color: "#939393",
+        fontSize: 18
+    },
+    logo: {
+        height: 90,
+        width: 170
+    },
+    content: {
         padding: 15,
         margin: 20,
         marginBottom: 10,
@@ -27,7 +35,7 @@ export default {
         fontSize: 12
     },
     loginFingerprint: {
-        backgroundColor: '#FFF',  
+        backgroundColor: Variables.colors.primary,
         marginRight: 0,
         borderRadius: 30
     },
@@ -36,10 +44,10 @@ export default {
     },
     labelRemeber: {
         color: Variables.colors.primary,
-        marginTop: 8
+        marginTop: 4
         
     },
     loginButton: {
         marginTop: 10
     }
-};
+}; 

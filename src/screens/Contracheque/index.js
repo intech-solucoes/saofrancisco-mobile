@@ -43,8 +43,8 @@ export default class Contracheque extends Component {
     }
 
     detalhar = (contracheque) => {
-        this.props.navigation.navigate("ContrachequeDetalhe", 
-            { 
+        this.props.navigation.navigate("ContrachequeDetalhe",
+            {
                 referencia: contracheque.DT_REFERENCIA,
                 tipoFolha: contracheque.CD_TIPO_FOLHA
             })
@@ -60,8 +60,8 @@ export default class Contracheque extends Component {
                         return (
                             <ElevatedView elevation={1} key={3} style={{ margin: 5, padding: 0 }}>
                                 <TouchableHighlight underlayColor={Variables.colors.gray} style={{ padding: 15 }}
-                                                    onPress={() => this.detalhar(contracheque)}>
-                                    
+                                    onPress={() => this.detalhar(contracheque)}>
+
                                     <View style={{ alignContent: "center", flexDirection: "row" }}>
                                         <View style={{ flex: 1 }}>
                                             <Text style={[Styles.h3, { color: Variables.colors.primary }]}>{contracheque.DT_REFERENCIA}</Text>
@@ -69,13 +69,13 @@ export default class Contracheque extends Component {
                                             {contracheque.IsAbonoAnual &&
                                                 <Text style={{ color: Variables.colors.green, padding: 5 }}>Abono Anual</Text>}
                                         </View>
-                                        
+
                                         <View style={{ flex: 1, alignItems: "flex-end" }}>
                                             <View style={{ flexDirection: "row" }}>
                                                 <Text style={{ fontSize: 11, marginRight: 10 }}>BRUTO:</Text>
                                                 <TextMask type={'money'} value={contracheque.VAL_BRUTO} style={{ fontSize: 11, color: Variables.colors.green, width: 60 }} />
                                             </View>
-                                            
+
                                             <View style={{ flexDirection: "row" }}>
                                                 <Text style={{ fontSize: 11, marginRight: 10 }}>DESCONTOS:</Text>
                                                 <TextMask type={'money'} value={contracheque.VAL_DESCONTOS} style={{ fontSize: 11, color: Variables.colors.red, width: 60 }} />
@@ -87,7 +87,7 @@ export default class Contracheque extends Component {
                                             </View>
                                         </View>
 
-                                        
+
                                     </View>
 
                                 </TouchableHighlight>

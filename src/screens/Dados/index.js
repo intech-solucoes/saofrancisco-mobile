@@ -75,7 +75,7 @@ export default class Dados extends Component {
 
     async carregarFuncionario() {
         var result = await FuncionarioService.Buscar();
-        await this.setState({ funcionario: result.data.funcionario });
+        await this.setState({ funcionario: result.data.Funcionario });
     }
 
     async carregarPlano() {
@@ -120,7 +120,7 @@ export default class Dados extends Component {
                 {!this.state.loading &&
                     <ScrollView contentContainerStyle={Styles.scrollContainer}>
 
-                        <Image source={this.state.avatarSource}  style={{height: 120, width: 120}}/>
+                        {/* <Image source={this.state.avatarSource}  style={{height: 120, width: 120}}/> */}
 
                         <ElevatedView elevation={3} style={{ padding: 10, marginBottom: 10 }}>
                             <CampoEstatico titulo={"Nome"} valor={this.state.dados.dadosPessoais.NOME_ENTID} />
@@ -147,7 +147,7 @@ export default class Dados extends Component {
                             </ElevatedView>
                         }
 
-                    <Button title="Entrar" onClick={this.teste}  />
+                    {/* <Button title="Entrar" onClick={this.teste}  /> */}
                     </ScrollView>
                 }
 
