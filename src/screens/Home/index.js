@@ -80,8 +80,6 @@ export default class Home extends Component {
                 touchIDAvailable: true
             });
 
-            console.warn(digitalAccess)
-
             if (digitalAccess == 'false') {
 
                 Alert.alert(
@@ -135,7 +133,7 @@ export default class Home extends Component {
 
     render() {
         return (
-            <View style={{ padding: 5 }}>
+            <ScrollView style={{ padding: 5 }}>
 
                 <View style={{ padding: 10 }}>
                     <Text style={[Styles.h4, styles.fontColor]}>Olá,</Text>
@@ -232,7 +230,7 @@ export default class Home extends Component {
 
 
 
-            </View>
+            </ScrollView> 
 
         )
     }

@@ -99,10 +99,11 @@ export default class Login extends React.Component {
   fingerLogin = () => {
     try {
       TouchID.authenticate('Use sua digital para se autenticar').then(success =>
-        this.props.navigation.navigate('Planos')
+        this.props.navigation.navigate('Home')
       )
         .catch(() => {
           this.setState({ digitalAccess: false })
+          AsyncStorage.setItem('digitalAccess', 'false')
         })
     } catch (err) {
       console.log(err);
@@ -172,11 +173,22 @@ export default class Login extends React.Component {
           <Loader loading={this.state.loading} />
           <Alert ref={this.alerta} />
 
-          <Text style={loginStyles.label}>CPF</Text>
-          <TextInput name={"cpf"} style={Styles.textInput} placeholder="Digite aqui seu CPF" returnKeyType="next" blurOnSubmit={false} underlineColorAndroid="transparent"
-            value={this.state.cpf}
-            onSubmitEditing={() => { this.focusNextField('senha'); }} onChangeText={value => this.setState({ cpf: value })}
-            ref={input => { this.inputs['cpf'] = input; }} />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}> 
+            <View>
+              <Text style={loginStyles.label}>CPF</Text>
+              <TextInput name={"cpf"} style={Styles.textInput} placeholder="Digite aqui seu CPF" returnKeyType="next" blurOnSubmit={false} underlineColorAndroid="transparent"
+                value={this.state.cpf}
+                onSubmitEditing={() => { this.focusNextField('senha'); }} onChangeText={value => this.setState({ cpf: value })}
+                ref={input => { this.inputs['cpf'] = input; }} /> 
+            </View>
+            <View>
+              <Text style={loginStyles.label}>Lembrar-me</Text>
+              <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-end' }}>
+                  <Switch value={this.state.lembrar} thumbColor={Variables.colors.primary}
+                      onValueChange={value => this.setState({ lembrar: value })} style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}/>
+              </View>
+            </View>
+          </View>
 
           {this.state.digitalAccess == false &&
             <Text style={loginStyles.label}>Senha</Text>
@@ -186,23 +198,7 @@ export default class Login extends React.Component {
               value={this.state.senha}
               ref={input => { this.inputs['senha'] = input; }} onChangeText={value => this.setState({ senha: value })} />
           }
-          <View style={{ flexDirection: "row", marginVertical: 10 }}>
-            {/* <View style={{ width: 40 }}>
-              {this.state.touchIDAvailable &&
-                <Button style={loginStyles.loginFingerprint} onClick={this.fingerLogin}>
-                  <Icon name={"fingerprint"} style={{ marginRight: 0 }} size={28} color={"#FFF"} borderRadius={10} />
-                </Button>
-              }
-            </View> */}
-
-            <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-end' }}>
-              <Text style={loginStyles.labelRemeber}>Lembrar-me</Text>
-              <Switch value={this.state.lembrar} thumbColor={Variables.colors.primary}
-                onValueChange={value => this.setState({ lembrar: value })} />
-            </View>
-
-          </View>
-
+          
           <View>
             <Button title="Entrar" onClick={this.login} style={loginStyles.loginButton} />
             <Button title="Primeiro Acesso/Esqueci minha senha" onClick={this.firstAccess} light={true}

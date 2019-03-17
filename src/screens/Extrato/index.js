@@ -1,107 +1,207 @@
-import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, BackHandler, AsyncStorage, FlatList, TouchableHighlight } from "react-native";
-import Spinner from 'react-native-loading-spinner-overlay';
-import { TextMask } from "react-native-masked-text";
+import React, { Component } from "react";
+import { Text, View, ScrollView, AsyncStorage } from "react-native";
 
 import Styles, { Variables } from "../../styles";
-import { ScreenHeader, ElevatedView, Button } from "../../components";
+import { CampoEstatico, Loader, Button, PopUp, Alert } from "../../components";
 
-import { FichaFinanceiraService } from "@intechprev/prevsystem-service";
+import { PlanoService, SalarioBaseService, FichaFechamentoPrevesService } from "@intechprev/prevsystem-service";
+import { TextInputMask } from "react-native-masked-text";
 
 export default class ExtratoAnosScreen extends Component {
 
     static navigationOptions = {
-        title: "Extrato"
+        title: "Seu Plano"
     }
-
+    
     constructor(props) {
         super(props);
 
-        this.state = {
+        // Armazena as referências dos inputs para fácil transição entre eles, como utilizar o tab no teclado
+        this.inputs = [];
+
+        this.state = { 
             loading: false,
-            plano: 0,
-            extrato: []
+            plano: {},
+            salarioBase: {},
+            saldo: {},
+            cdPlano: null,
+            cdEmpresa: null,
+            dataInicial: null,
+            dataFinal: null,
+            possuiSeguro: false
         }
+
+        this.alerta = React.createRef();
+        this.modalParametros = React.createRef();
     }
 
     async componentDidMount() {
-        await this.setState({ loading: true });
+        try {
+            await this.setState({ loading: true });
 
-        await this.carregarPlano();
-        await this.carregarExtratoAnos();
+            var cdPlano = await AsyncStorage.getItem("plano");
+            var cdEmpresa = await AsyncStorage.getItem("empresa");
+            await this.setState({ cdPlano, cdEmpresa });
 
-        await this.setState({ loading: false });
+            await this.carregarPlano();
+
+            var { data: salarioBase } = await SalarioBaseService.Buscar();
+            //var { data: saldo } = await FichaFechamentoPrevesService.BuscarSaldoPorPlano(cdPlano);
+
+            await this.setState({
+                salarioBase
+            });
+
+            await this.setState({ loading: false });
+        } catch(err) {
+            if(err.response)
+                alert(err.response.data);
+            else
+                alert(err);
+        } finally {
+            await this.setState({ loading: false });
+        }
     }
 
-    async carregarPlano() {
-        var plano = await AsyncStorage.getItem("plano");
+    focusNextField = (id) => {
+        this.inputs[id].focus();
+    }
+
+    carregarPlano = async () => {
+        var { data: plano } = await PlanoService.BuscarPorCodigo(this.state.cdPlano);
         await this.setState({ plano });
+
+        // var { data: possuiSeguro } = await PlanoService.PossuiCertificadoSeguro();
+        // await this.setState({ possuiSeguro });
     }
 
-    async carregarExtratoAnos() {
-        var result = await FichaFinanceiraService.BuscarResumoAnosPorPlano(this.state.plano);
-        await this.setState({ extrato: result.data });
+    mostrarModalParametros = async () => {
+        await this.modalParametros.current.mostrar();
     }
 
-    detalhar = (item) => {
-        this.props.navigation.navigate("ExtratoMeses", 
-            { 
-                ano: item.ANO_REF
-            })
+    enviarExtrato = async () => {
+        try {
+            await this.modalParametros.current.fechar();
+            await this.setState({ loading: true });
+
+            var { data: extratoResult } = await PlanoService.RelatorioExtratoPorPlanoEmpresaReferencia(this.state.cdPlano, this.state.cdEmpresa, this.state.dataInicial, this.state.dataFinal, true);
+            await this.alerta.current.mostrar(extratoResult);
+        } catch(err) {
+            if(err.response)
+                await this.alerta.current.mostrar(err.response.data);
+            else
+                await this.alerta.current.mostrar(err);
+        } finally {
+            await this.setState({ loading: false });
+        }
+    }
+
+    enviarCertificadoParticipacao = async () => {
+        try {
+            await this.setState({ loading: true });
+
+            var { data: certificadoResult } = await PlanoService.RelatorioCertificado(this.state.cdPlano, this.state.cdEmpresa, true);
+            await this.alerta.current.mostrar(certificadoResult);
+        } catch(err) {
+            if(err.response)
+                await this.alerta.current.mostrar(err.response.data);
+            else
+                await this.alerta.current.mostrar(err);
+        } finally {
+            await this.setState({ loading: false });
+        }
+    }
+
+    enviarCertificadoSeguro = async () => {
+        try {
+            await this.setState({ loading: true });
+
+            var { data: certificadoResult } = await PlanoService.RelatorioCertificadoSeguro(true);
+            await this.alerta.current.mostrar(certificadoResult);
+        } catch(err) {
+            if(err.response)
+                await this.alerta.current.mostrar(err.response.data);
+            else
+                await this.alerta.current.mostrar(err);
+        } finally {
+            await this.setState({ loading: false });
+        }
     }
 
     render() {
         return (
             <View>
-                <Spinner visible={this.state.loading} cancelable={true} />
+                <Loader loading={this.state.loading} />
+                <Alert ref={this.alerta} />
+                <PopUp ref={this.modalParametros}>
+                    <Text style={[Styles.h3, { marginBottom: 15 }]}>Selecione o período em que o extrato será gerado:</Text>
 
-                <ScrollView>
-                    {this.state.extrato.map((item, index) => {
-                        return (
-                            <ElevatedView elevation={1} key={3} style={{ margin: 5, padding: 0 }}>
-                                <TouchableHighlight underlayColor={Variables.colors.gray} style={{ padding: 15 }}
-                                                    onPress={() => this.detalhar(item)}>
-                                    
-                                    <View style={{ alignContent: "center", flexDirection: "column" }}>
-                                        <View style={{ flex: 1 }}>
-                                            <Text style={[Styles.h3, { color: Variables.colors.primary }]}>Referência: {item.ANO_REF}</Text>
-                                        </View>
-                                        
-                                        <View style={{ alignContent: "center", flexDirection: "column" }}>
-                                            <View style={{ flex: 1 }}>
-                                                <View style={{ flexDirection: "row" }}>
-                                                    <Text style={{ fontSize: 11, marginRight: 5 }}>Contribuições Participante:</Text>
-                                                    <TextMask type={'money'} value={item.CONTRIB_PARTICIPANTE} style={{ fontSize: 11, fontWeight: "bold" }} />
-                                                </View>
-                                                
-                                                <View style={{ flexDirection: "row" }}>
-                                                    <Text style={{ fontSize: 11, marginRight: 5 }}>Contribuições Patrocinadora:</Text>
-                                                    <TextMask type={'money'} value={item.CONTRIB_EMPRESA} style={{ fontSize: 11, fontWeight: "bold" }} />
-                                                </View>
-                                                
-                                                <View style={{ flexDirection: "row" }}>
-                                                    <Text style={{ fontSize: 11, marginRight: 5 }}>Contribuições Total:</Text>
-                                                    <TextMask type={'money'} value={item.TOTAL_CONTRIB} style={{ fontSize: 11, fontWeight: "bold" }} />
-                                                </View>
-                                                
-                                                <View style={{ flexDirection: "row" }}>
-                                                    <Text style={{ fontSize: 11, marginRight: 5 }}>Cotas Adquiridas:</Text>
-                                                    <Text style={{ fontSize: 11, fontWeight: "bold" }}>{item.QTD_COTA}</Text>
-                                                </View>
-                                            </View>
-                                        </View>
-                                        
-                                    </View>
+                    <Text>Data Inicial</Text>
+                    <TextInputMask name={"dataInicial"} style={Styles.textInput} placeholder="00/00/0000" returnKeyType="next" blurOnSubmit={false} underlineColorAndroid="transparent"
+                        value={this.state.dataInicial} type={"datetime"} options={{ format: 'dd/MM/yyyy' }}
+                        onSubmitEditing={() => { this.focusNextField('dataFinal'); }} onChangeText={value => this.setState({ dataInicial: value })}
+                        refInput={input => { this.inputs['dataInicial'] = input; }} />
 
-                                </TouchableHighlight>
-                            </ElevatedView>
-                        )
-                    })}
+                    <Text>Data Final</Text>
+                    <TextInputMask name={"dataFinal"} style={Styles.textInput} placeholder="00/00/0000" returnKeyType="next" blurOnSubmit={false} underlineColorAndroid="transparent"
+                        value={this.state.dataFinal} type={"datetime"} options={{ format: 'dd/MM/yyyy' }}
+                        onChangeText={value => this.setState({ dataFinal: value })}
+                        refInput={input => { this.inputs['dataFinal'] = input; }} />
+
+                    <Button title={"Enviar"} style={Styles.modalButton} titleStyle={Styles.modalButtonText} onClick={this.enviarExtrato} />
+                </PopUp>
+
+                <ScrollView contentContainerStyle={Styles.scrollContainer}>
+                    <View>
+                        <CampoEstatico titulo={"Plano"} valor={this.state.plano.DS_PLANO} />
+                        <CampoEstatico titulo={"Data de Inscrição"} valor={this.state.plano.DT_INSC_PLANO} />
+                        <CampoEstatico titulo={"Situação no Plano"} valor={this.state.plano.DS_SIT_PLANO} />
+                        <CampoEstatico titulo={"Categoria"} valor={this.state.plano.DS_CATEGORIA} />
+                        <CampoEstatico titulo={"Salário de Participação"} tipo={"dinheiro"} valor={this.state.salarioBase.VL_SALARIO} />
+
+                        <Text style={[Styles.h2, { marginTop: 10, marginBottom: 10 }]}>Saldo</Text>
+                        {this.state.cdPlano === "0001" &&
+                            <View>
+                                <CampoEstatico titulo={"Quantidade de Cotas Participante"} valor={this.state.saldo.CotasPartic} />
+
+                                {this.state.saldo.CotasPatroc !== 0 &&
+                                <CampoEstatico titulo={"Quantidade de Cotas Patrocinadora"} valor={this.state.saldo.CotasPatroc} />}
+
+                                <CampoEstatico titulo={"Saldo Participante"} tipo={"dinheiro"} valor={this.state.saldo.SaldoPartic} />
+
+                                {this.state.saldo.SaldoPatroc !== 0 &&
+                                <CampoEstatico titulo={"Saldo Patrocinadora"} tipo={"dinheiro"} valor={this.state.saldo.SaldoPatroc} />}
+                                
+                                <CampoEstatico titulo={"Saldo Total"} tipo={"dinheiro"} valor={this.state.saldo.Total} />
+
+                                <CampoEstatico titulo={"Data do Indice"} valor={this.state.saldo.DataIndice} />
+                                <CampoEstatico titulo={"Valor do Indice"} valor={this.state.saldo.ValorIndice} />
+                            </View>
+                        }
+
+                        {this.state.cdPlano === "0002" && 
+                            <View>
+                                <CampoEstatico titulo={"Quantidade de Cotas"} valor={this.state.saldo.CotasPartic} />
+                                <CampoEstatico titulo={"Saldo"} tipo={"dinheiro"} valor={this.state.saldo.SaldoPartic} />
+
+                                <CampoEstatico titulo={"Data do Indice"} valor={this.state.saldo.DataIndice} />
+                                <CampoEstatico titulo={"Valor do Indice"} valor={this.state.saldo.ValorIndice} />
+                            </View>
+                        }
+
+                        <Button title={"Enviar Extrato de Contribuições por e-mail"} style={{ flex: 1, marginTop: 20 }} semEspaco={false}
+                                onClick={this.mostrarModalParametros} />
+                        <Button title={"Enviar Certificado de Participação por e-mail"} style={{ flex: 1 }} semEspaco={false}
+                                onClick={this.enviarCertificadoParticipacao} />
+                        
+                        {this.state.possuiSeguro && 
+                            <Button title={"Enviar Certificado de Seguro por e-mail"} style={{ flex: 1 }} semEspaco={false}
+                                    onClick={this.enviarCertificadoSeguro} />
+                        }
+                    </View>
                 </ScrollView>
             </View>
         );
     }
-};
 
-const styles = StyleSheet.create({
-});
+}

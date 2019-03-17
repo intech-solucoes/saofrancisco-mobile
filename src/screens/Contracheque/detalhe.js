@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet, BackHandler, AsyncStorage, FlatList, TouchableHighlight } from "react-native";
 import { TextMask } from "react-native-masked-text";
 import _ from 'lodash'
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 import Styles, { Variables } from "../../styles";
 import { ElevatedView, CampoEstatico, Loader } from "../../components";
@@ -54,34 +56,42 @@ export default class ContrachequeDetalhe extends Component {
         return (
             <View>
                 <Loader loading={this.state.loading} />
+                
+                {!this.state.loading &&
+                    <ScrollView contentContainerStyle={Styles.scrollContainer}>
 
-                <ScrollView contentContainerStyle={Styles.scrollContainer}>
+                        <ElevatedView elevation={3} style={{ padding: 10, marginBottom: 10 }}>
+                            <CampoEstatico titulo={"Referência"} semEspaco={true} valor={this.state.contracheque.Resumo.Referencia} />
+                        </ElevatedView>
 
-                    <ElevatedView elevation={3} style={{ padding: 10, marginBottom: 10 }}>
-                        <CampoEstatico titulo={"Referência"} semEspaco={true} valor={this.state.contracheque.Resumo.Referencia} />
-                    </ElevatedView>
+                        <View style={{ padding: 10 }}>
 
-                    <View style={{ padding: 10 }}>
-                        <Text style={[Styles.h2, { color: Variables.colors.green, marginBottom: 10 }]}>
-                            RENDIMENTOS
-                        </Text>
+                            <View style={{ flexDirection: 'row', alignItems : 'center', flex: 1, marginBottom: 10 }}> 
+                                <Icon name="ios-add-circle" size={30} color="#28a745" /> 
+                                <Text style={[Styles.h2, { color: Variables.colors.green , marginLeft: 10 }]}> 
+                                    RENDIMENTOS
+                                </Text>
+                            </View>
 
-                        {this.state.contracheque.Proventos.map((rubrica, index) => {
-                            return <CampoEstatico key={index} titulo={rubrica.DS_RUBRICA} tipo={"dinheiro"} valor={rubrica.VALOR_MC} style={{ marginBottom: 0, color: Variables.colors.grayDarker }} />;
-                        })}
-                    </View>
+                            {this.state.contracheque.Proventos.map((rubrica, index) => {
+                                return <CampoEstatico key={index} titulo={rubrica.DS_RUBRICA} tipo={"dinheiro"} valor={rubrica.VALOR_MC} style={{ marginBottom: 0, color: Variables.colors.grayDarker }} />;
+                            })}
+                        </View>
 
-                    <View style={{ padding: 10 }}>
-                        <Text style={[Styles.h2, { color: Variables.colors.red, marginBottom: 10 }]}>
-                            DESCONTOS
-                        </Text>
+                        <View style={{ padding: 10 }}>
+                            <View style={{ flexDirection: 'row', alignItems : 'center', flex: 1, marginBottom: 10 }}> 
+                                <Icon name="ios-remove-circle" size={30} color="#dc3545" />   
+                                <Text style={[Styles.h2, { color: Variables.colors.red, marginLeft: 10  }]}> 
+                                    DESCONTOS
+                                </Text>
+                            </View>
+                            {this.state.contracheque.Descontos.map((rubrica, index) => {
+                                return <CampoEstatico key={index} titulo={rubrica.DS_RUBRICA} tipo={"dinheiro"} valor={rubrica.VALOR_MC} style={{ marginBottom: 0, color: Variables.colors.grayDarker }} />;
+                            })}
+                        </View>
 
-                        {this.state.contracheque.Descontos.map((rubrica, index) => {
-                            return <CampoEstatico key={index} titulo={rubrica.DS_RUBRICA} tipo={"dinheiro"} valor={rubrica.VALOR_MC} style={{ marginBottom: 0, color: Variables.colors.grayDarker }} />;
-                        })}
-                    </View>
-
-                </ScrollView>
+                    </ScrollView>
+                }
             </View>
         );
     }

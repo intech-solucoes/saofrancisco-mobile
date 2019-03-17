@@ -4,6 +4,7 @@ import ScreenHeader from "./ScreenHeader";
 import CampoEstatico from "./CampoEstatico";
 import Loader from "./Loader";
 import Alert from "./Alert";
+import PopUp from "./PopUp";
 
 export {
     Button,
@@ -11,5 +12,6 @@ export {
     ScreenHeader,
     CampoEstatico,
     Loader,
-    Alert
+    Alert,
+    PopUp
 };  
