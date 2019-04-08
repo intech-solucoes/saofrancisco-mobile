@@ -82,7 +82,8 @@ class SideMenu extends Component {
                     
                         {(!this.state.assistido && !this.state.pensionista) && 
                             <MenuItem onPress={this.navigateToScreen('ExtratoAnos')} icon={"file"} title="Extrato de Contribuições" />}
-
+                        
+                        <MenuItem onPress={this.navigateToScreen('Mensagens')} icon={"envelope"} title="Mensagens" />
                         <MenuItem onPress={this.navigateToScreen('Relacionamento')} icon={"comment"} title="Relacionamento" />
                         <MenuItem onPress={this.navigateToScreen('TrocarSenha')} icon={"unlock"} title="Trocar Senha" />
                         <MenuItem onPress={this.navigateToScreen('Planos')} icon={"exchange-alt"} title="Selecionar Plano" />
