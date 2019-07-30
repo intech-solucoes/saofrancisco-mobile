@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, AsyncStorage, Picker } from "react-native";
 
 import Styles, { Variables } from "../../styles";
-import { CampoEstatico, Loader, Box, DropDown } from "../../components";
+import { CampoEstatico, Loader, Box, DropDown, Button } from "../../components";
 
 import { PlanoService, InfoRendService } from "@intechprev/prevsystem-service";
 import { TipoCampoEstatico } from '../../components/CampoEstatico';
@@ -58,6 +58,19 @@ export class InformeRendimentos extends Component<Props, State> {
         await this.setState({ informe });
     }
 
+    enviar = async () => {
+        try {
+            var resultado = await InfoRendService.Relatorio(this.state.dataSelecionada, true);
+            await alert(resultado);
+        }  catch(err) {
+            if(err.response)
+                console.log(err.response.data);
+            else
+                console.log(err);
+        }
+    }
+
+
     render() {
         return (
             <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
@@ -90,6 +103,8 @@ export class InformeRendimentos extends Component<Props, State> {
                                             </View>
                                         );
                                     })}
+                                    
+                                    <Button title="Enviar por E-mail" onClick={this.enviar} />
                                 </Box>
                             </View>
                         }
