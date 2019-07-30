@@ -1,12 +1,12 @@
 import React from "react";
 import { createStackNavigator, createDrawerNavigator, createAppContainer } from 'react-navigation';
 import { FontAwesomeIcon } from 'expo-fontawesome';
-import { faBars} from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 import { Variables } from './styles';
 
-import { 
-    SideMenu, 
+import {
+    SideMenu,
     Login,
     Termos,
     TrocarSenhaPrimeiroAcesso,
@@ -14,6 +14,7 @@ import {
     Home,
     Dados,
     Contracheque,
+    Extrato,
     ContrachequeDetalhe,
     InformeRendimentos,
     Mensagens,
@@ -25,22 +26,17 @@ import {
 import { TouchableOpacity } from 'react-native';
 
 var MainStack = createStackNavigator({
-    Login,
-    Termos,
-    TrocarSenhaPrimeiroAcesso,
-    Planos,
     Home,
     Dados,
     Contracheque,
+    Extrato,
     ContrachequeDetalhe,
     InformeRendimentos,
     Mensagens,
     MensagemDetalhe,
     Relacionamento,
-    TrocarSenha,
-    PrimeiroAcesso
+    TrocarSenha
 }, {
-    initialRouteName: 'Login',
     headerBackTitleVisible: false,
     defaultNavigationOptions: (props: any) => {
         return {
@@ -56,7 +52,7 @@ var MainStack = createStackNavigator({
             },
             headerTintColor: '#fff',
             headerRight: (
-                <TouchableOpacity onPress={() => props.navigation.toggleDrawer() } style={{ padding: 10 }}>
+                <TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ padding: 10 }}>
                     <FontAwesomeIcon icon={faBars} style={{ color: 'white' }} />
                 </TouchableOpacity>
             )
@@ -67,8 +63,25 @@ var MainStack = createStackNavigator({
 const MainDrawer = createDrawerNavigator({
     DrawerStack: MainStack
 }, {
-    drawerPosition: 'right', 
-    contentComponent: SideMenu
+    drawerPosition: 'right',
+    contentComponent: SideMenu,
+	navigationOptions: {
+		header: null
+	}
 } as any);
 
-export default createAppContainer(MainDrawer);
+const AppNavigator = createStackNavigator({
+    Login,
+    Termos,
+    TrocarSenhaPrimeiroAcesso,
+    Planos,
+    PrimeiroAcesso,
+    MainDrawer
+}, {
+	initialRouteName: 'Login',
+	navigationOptions: {
+		header: null
+	}
+});
+
+export default createAppContainer(AppNavigator);

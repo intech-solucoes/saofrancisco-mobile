@@ -13,6 +13,7 @@ import { TrocarSenha } from "./TrocarSenha";
 import { PrimeiroAcesso } from "./Login/primeiroAcesso";
 import { Termos } from "./Login/termos";
 import { TrocarSenhaPrimeiroAcesso } from "./Login/trocarSenhaPrimeiroAcesso";
+import { Extrato } from "./Extrato";
 
 export {
     SideMenu,
@@ -30,5 +31,6 @@ export {
     Mensagens,
     MensagemDetalhe,
     Relacionamento,
-    TrocarSenha
+    TrocarSenha,
+    Extrato
 }

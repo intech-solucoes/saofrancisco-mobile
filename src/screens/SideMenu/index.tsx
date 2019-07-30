@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, View, Image, TouchableHighlight, AsyncStorage } from 'react-native';
 import { NavigationActions, NavigationScreenProp } from 'react-navigation';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 
 import { FontAwesomeIcon } from 'expo-fontawesome';
 import { faHome, faUser, faAddressBook, faFile, faEnvelope, faClosedCaptioning, faChartPie, faComment, faUnlock, faExchangeAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
@@ -79,6 +79,9 @@ export class SideMenu extends Component<Props, State> {
                         {(this.state.assistido || this.state.pensionista) && 
                             <MenuItem onPress={this.navigateToScreen('Contracheque')} icon={faClosedCaptioning} title="Contracheque" />}
                         
+                        {(!this.state.assistido || !this.state.pensionista) && 
+                            <MenuItem onPress={this.navigateToScreen('Extrato')} icon={faFile} title="Extrato" />}
+
                         <MenuItem onPress={this.navigateToScreen('InformeRendimentos')} icon={faChartPie} title="Informe de Rendimentos" />
                         <MenuItem onPress={this.navigateToScreen('Mensagens')} icon={faEnvelope} title="Mensagens" />
                         <MenuItem onPress={this.navigateToScreen('Relacionamento')} icon={faComment} title="Relacionamento" />
