@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, BackHandler, AsyncStorage, FlatList, TouchableHighlight } from "react-native";
+import { Text, View, ScrollView, StyleSheet, BackHandler, AsyncStorage, FlatList, TouchableHighlight, Linking } from "react-native";
 import { TextMask } from "react-native-masked-text";
 import _ from 'lodash'
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as FileSystem from 'expo-file-system';
 
 
 import Styles, { Variables } from "../../styles";
-import { CampoEstatico, Loader, Box } from "../../components";
+import { CampoEstatico, Loader, Box, Button } from "../../components";
 
-import { FichaFinanceiraAssistidoService, PlanoService } from "@intechprev/prevsystem-service";
+import { FichaFinanceiraAssistidoService, PlanoService, ContrachequeService } from "@intechprev/prevsystem-service";
 import { NavigationScreenProp } from 'react-navigation';
 import { TipoCampoEstatico } from '../../components/CampoEstatico';
 
@@ -17,19 +18,20 @@ interface Props {
 }
 
 interface State {
-    loading: boolean,
-    plano: any,
+    loading: boolean;
+    plano: any;
     contracheque: {
-        Proventos: Array<any>,
-        Descontos: Array<any>,
+        Proventos: Array<any>;
+        Descontos: Array<any>;
         Resumo: { 
-            Bruto: any,
-            Descontos: any,
-            Liquido: any,
-            DesTipoFolha: string
+            Bruto: any;
+            Descontos: any;
+            Liquido: any;
+            DesTipoFolha: string;
         }
-    },
-    dataReferencia: string
+    };
+    dataReferencia: string;
+    cdTipoFolha: string;
 }
 
 export class ContrachequeDetalhe extends Component<Props, State> {
@@ -54,7 +56,8 @@ export class ContrachequeDetalhe extends Component<Props, State> {
                     DesTipoFolha: null
                 }
             },
-            dataReferencia: ""
+            dataReferencia: "",
+            cdTipoFolha: ""
         }
     }
 
@@ -74,10 +77,22 @@ export class ContrachequeDetalhe extends Component<Props, State> {
     }
 
     carregarContracheque = async () => {
-        var referencia = this.props.navigation.getParam("referencia", "0");
-        var tipoFolha = this.props.navigation.getParam("tipoFolha", "0");
-        var contracheque = await FichaFinanceiraAssistidoService.BuscarPorPlanoReferenciaTipoFolha(this.state.plano.CD_PLANO, referencia, tipoFolha);
-        await this.setState({ contracheque, dataReferencia: referencia });
+        var dataReferencia = this.props.navigation.getParam("referencia", "0");
+        var cdTipoFolha = this.props.navigation.getParam("tipoFolha", "0");
+        var contracheque = await FichaFinanceiraAssistidoService.BuscarPorPlanoReferenciaTipoFolha(this.state.plano.CD_PLANO, dataReferencia, cdTipoFolha);
+        await this.setState({ contracheque, dataReferencia, cdTipoFolha });
+    }
+
+    enviar = async () => {
+        try {
+            var resultado = await ContrachequeService.Relatorio(this.state.plano.CD_PLANO, this.state.dataReferencia, this.state.cdTipoFolha, true);
+            await alert(resultado);
+        }  catch(err) {
+            if(err.response)
+                console.log(err.response.data);
+            else
+                console.log(err);
+        }
     }
 
     render() {
@@ -112,6 +127,9 @@ export class ContrachequeDetalhe extends Component<Props, State> {
                                 return <CampoEstatico key={index} titulo={rubrica.DS_RUBRICA} tipo={TipoCampoEstatico.dinheiro} valor={rubrica.VALOR_MC} style={{ marginBottom: 0, color: Variables.colors.grayDarker }} />;
                             })}
                         </View>
+
+                        
+                        <Button title="Enviar por E-mail" onClick={this.enviar} />
 
                     </Box>
                 }
