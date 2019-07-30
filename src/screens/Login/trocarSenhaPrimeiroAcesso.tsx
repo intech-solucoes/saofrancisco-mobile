@@ -60,7 +60,6 @@ export class TrocarSenhaPrimeiroAcesso extends React.Component<Props, State> {
         }
 
         try {
-            console.warn(this.state.senhaNova);
             await UsuarioService.TrocarSenhaPrimeiroAcesso(this.state.senhaNova);
             await alert("Senha alterada com sucesso!");
             

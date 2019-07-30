@@ -1,5 +1,5 @@
 import { Variables } from "../../styles";
-import { ViewStyle } from "react-native";
+import { ViewStyle, TextStyle } from "react-native";
 
 export default {
     container: {
@@ -18,8 +18,9 @@ export default {
     } as ViewStyle,
     subtituloTexto: {
         color: "#939393",
-        fontSize: 18
-    },
+        fontSize: 18,
+        textAlign: "center"
+    } as TextStyle,
     logo: {
         height: 90,
         width: 170
