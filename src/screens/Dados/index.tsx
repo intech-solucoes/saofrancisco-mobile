@@ -125,7 +125,7 @@ export class Dados extends Component<Props, State> {
                         <Box titulo={"Dados Pessoais"}>
                             <CampoEstatico titulo={"Nome"} valor={this.state.dados.DadosPessoais.NOME_ENTID} />
                             <CampoEstatico titulo="Empresa" valor={this.state.dados.NOME_EMPRESA} />
-                            <CampoEstatico titulo="Matrícula" valor={this.state.funcionario.NUM_MATRICULA} />
+                            <CampoEstatico titulo="Matrícula" valor={this.state.dados.Funcionario.NUM_MATRICULA} />
                             <CampoEstatico titulo="Sexo" valor={this.state.dados.SEXO} />
                             <CampoEstatico titulo="Estado Civil" valor={this.state.dados.DS_ESTADO_CIVIL} />
                             <CampoEstatico titulo="RG" valor={this.state.dados.DadosPessoais.NU_IDENT} />
@@ -142,12 +142,12 @@ export class Dados extends Component<Props, State> {
 
                         {!this.state.pensionista &&
                             <Box titulo={"Dados Funcionais"}>
-                                <CampoEstatico titulo={"Data de admissão"} valor={this.state.funcionario.DT_ADMISSAO} />
+                                <CampoEstatico titulo={"Data de admissão"} valor={this.state.dados.Funcionario.DT_ADMISSAO} />
                                 <CampoEstatico titulo={"Data de Inscrição no Plano"} valor={this.state.plano.DT_INSC_PLANO} />
                                 <CampoEstatico titulo={"Tipo de Tributação"} valor={this.state.plano.TIPO_IRRF == "1" ? "PROGRESSIVA" : "REGRESSIVA"} semEspaco />
 
                                 {this.state.plano.ProcessoBeneficio &&
-                                    <View>
+                                    <View style={{ marginTop: 10 }}>
                                         <CampoEstatico titulo={"Data de Aposentadoria"} valor={this.state.plano.ProcessoBeneficio.DT_INICIO_FUND} />
                                         <CampoEstatico titulo={"Espécie de aposentadoria"} valor={this.state.plano.ProcessoBeneficio.DS_ESPECIE} semEspaco />
                                     </View>

@@ -55,7 +55,7 @@ export class HomeAssistido extends Component<Props, State> {
     carregarPlano = async () => {
         var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlano(this.props.plano.CD_PLANO);
         var processoBeneficio = await ProcessoBeneficioService.BuscarPorPlano(this.props.plano.CD_PLANO);
-        var calendario = await CalendarioPagamentoService.Buscar();
+        var calendario = await CalendarioPagamentoService.BuscarPorPlano(this.props.plano.CD_PLANO);
         await this.setState({ ultimaFolha, processoBeneficio, calendario });
     }
 
@@ -85,30 +85,34 @@ export class HomeAssistido extends Component<Props, State> {
                             </HomeCard>
                         </Row>
                         
-                        <Row>
-                            <HomeCard titulo={"Saldo de Conta Aplicável Atual - SCAA (em cotas)"} texto>
-                                {this.state.processoBeneficio.SALDO_ATUAL}
-                            </HomeCard>
-                        </Row>
-                        
-                        <Row>
-                            <HomeCard titulo={"Renda - % SCAA"} texto>
-                                {this.state.processoBeneficio.VL_PARCELA_MENSAL}%
-                            </HomeCard>
-                        </Row>
-                        
-                        <Row>
-                            <HomeCard titulo={"Provável Encerramento do Benefício"} texto>
-                                {this.state.processoBeneficio.DT_APOSENTADORIA}
-                            </HomeCard>
-                        </Row>
-                        
-                        {this.props.plano.CD_PLANO !== "0001" && 
-                            <Row>
-                                <HomeCard titulo={"Regime de Tributação"} texto>
-                                    {this.props.plano.TIPO_IRRF === "2" ? "Regressivo" : "Progressivo"}
-                                </HomeCard>
-                            </Row>
+                        {this.state.processoBeneficio.SALDO_ATUAL > 0 &&
+                            <View>
+                                <Row>
+                                    <HomeCard titulo={"Saldo de Conta Aplicável Atual - SCAA (em cotas)"} texto>
+                                        {this.state.processoBeneficio.SALDO_ATUAL}
+                                    </HomeCard>
+                                </Row>
+                                
+                                <Row>
+                                    <HomeCard titulo={"Renda - % SCAA"} texto>
+                                        {this.state.processoBeneficio.VL_PARCELA_MENSAL}%
+                                    </HomeCard>
+                                </Row>
+                                
+                                <Row>
+                                    <HomeCard titulo={"Provável Encerramento do Benefício"} texto>
+                                        {this.state.processoBeneficio.DT_APOSENTADORIA}
+                                    </HomeCard>
+                                </Row>
+                                
+                                {this.props.plano.CD_PLANO !== "0001" && 
+                                    <Row>
+                                        <HomeCard titulo={"Regime de Tributação"} texto>
+                                            {this.props.plano.TIPO_IRRF === "2" ? "Regressivo" : "Progressivo"}
+                                        </HomeCard>
+                                    </Row>
+                                }
+                            </View>
                         }
                         <Row>
                             <Col>

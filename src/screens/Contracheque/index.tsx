@@ -56,7 +56,8 @@ export class Contracheque extends Component<Props, State> {
         this.props.navigation.navigate("ContrachequeDetalhe",
             {
                 referencia: contracheque.DT_REFERENCIA,
-                tipoFolha: contracheque.CD_TIPO_FOLHA
+                tipoFolha: contracheque.CD_TIPO_FOLHA,
+                cdEspecie: contracheque.CD_ESPECIE
             });
     }
 

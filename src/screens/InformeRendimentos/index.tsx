@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, AsyncStorage, Picker } from "react-native";
 
 import Styles, { Variables } from "../../styles";
-import { CampoEstatico, Loader, Box, DropDown, Button } from "../../components";
+import { CampoEstatico, Loader, Box, DropDown, Button, AsyncAlert } from "../../components";
 
 import { PlanoService, InfoRendService } from "@intechprev/prevsystem-service";
 import { TipoCampoEstatico } from '../../components/CampoEstatico';
@@ -60,13 +60,24 @@ export class InformeRendimentos extends Component<Props, State> {
 
     enviar = async () => {
         try {
+            await this.setState({ loading: true });
+            
             var resultado = await InfoRendService.Relatorio(this.state.dataSelecionada, true);
-            await alert(resultado);
+            
+            await this.setState({ loading: false });
+            
+            setTimeout(async () => {
+                await AsyncAlert(resultado);
+            }, 500);
         }  catch(err) {
-            if(err.response)
-                console.log(err.response.data);
-            else
-                console.log(err);
+            await this.setState({ loading: false });
+
+            if(err.response) {
+                await AsyncAlert(err.response.data);
+            }
+            else {
+                await AsyncAlert(err);
+            }
         }
     }
 
@@ -76,7 +87,7 @@ export class InformeRendimentos extends Component<Props, State> {
             <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
                 <Loader loading={this.state.loading} />
 
-                {!this.state.loading &&
+                {this.state.informe &&
                     <View>
                         {this.state.datas.length > 0 &&
                             <View>

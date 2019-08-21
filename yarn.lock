@@ -876,10 +876,10 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.19"
 
-"@intechprev/prevsystem-service@../prevsystem-service":
+"@intechprev/prevsystem-service@file:../prevsystem-service":
   version "2.0.1"
   dependencies:
-    "@intechprev/service" "file:../../../Users/Rony/AppData/Local/Yarn/Cache/v4/npm-@intechprev-prevsystem-service-2.0.1-a91ffbd1-bd87-409c-976f-030ad330e58c-1564268871663/node_modules/@intechprev/_lib/service"
+    "@intechprev/service" "file:../../Users/rony-/AppData/Local/Yarn/Cache/v4/npm-@intechprev-prevsystem-service-2.0.1-b9321e83-68c0-42f0-b164-893ae78156f5-1564432029056/node_modules/@intechprev/_lib/service"
 
 "@intechprev/react-lib@^1.0.4":
   version "1.0.4"
@@ -890,6 +890,7 @@
   version "2.0.0"
   dependencies:
     axios "^0.18.0"
+    es6-promise "^4.2.8"
 
 "@react-native-community/cli@^1.2.1":
   version "1.11.2"
@@ -2033,6 +2034,11 @@ errorhandler@^1.5.0:
   dependencies:
     accepts "~1.3.7"
     escape-html "~1.0.3"
+
+es6-promise@^4.2.8:
+  version "4.2.8"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
+  integrity sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==
 
 escape-html@~1.0.3:
   version "1.0.3"

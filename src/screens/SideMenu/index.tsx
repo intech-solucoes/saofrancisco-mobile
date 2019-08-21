@@ -79,7 +79,7 @@ export class SideMenu extends Component<Props, State> {
                         {(this.state.assistido || this.state.pensionista) && 
                             <MenuItem onPress={this.navigateToScreen('Contracheque')} icon={faClosedCaptioning} title="Contracheque" />}
                         
-                        {(!this.state.assistido || !this.state.pensionista) && 
+                        {(!this.state.assistido && !this.state.pensionista) && 
                             <MenuItem onPress={this.navigateToScreen('Extrato')} icon={faFile} title="Extrato" />}
 
                         <MenuItem onPress={this.navigateToScreen('InformeRendimentos')} icon={faChartPie} title="Informe de Rendimentos" />

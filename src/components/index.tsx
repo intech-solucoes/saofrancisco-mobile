@@ -5,6 +5,7 @@ import Alert from "./Alert";
 import PopUp from "./PopUp";
 import Box from "./Box";
 import DropDown from "./DropDown";
+import { AsyncAlert } from "./AsyncAlert";
 
 export {
     Button,
@@ -13,5 +14,6 @@ export {
     Alert,
     PopUp,
     Box,
-    DropDown
+    DropDown,
+    AsyncAlert
 };

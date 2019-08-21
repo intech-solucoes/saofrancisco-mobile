@@ -7,7 +7,7 @@ import * as FileSystem from 'expo-file-system';
 
 
 import Styles, { Variables } from "../../styles";
-import { CampoEstatico, Loader, Box, Button } from "../../components";
+import { CampoEstatico, Loader, Box, Button, AsyncAlert } from "../../components";
 
 import { FichaFinanceiraAssistidoService, PlanoService, ContrachequeService } from "@intechprev/prevsystem-service";
 import { NavigationScreenProp } from 'react-navigation';
@@ -32,6 +32,7 @@ interface State {
     };
     dataReferencia: string;
     cdTipoFolha: string;
+    cdEspecie: string;
 }
 
 export class ContrachequeDetalhe extends Component<Props, State> {
@@ -40,7 +41,7 @@ export class ContrachequeDetalhe extends Component<Props, State> {
         title: "Contracheque"
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -57,7 +58,8 @@ export class ContrachequeDetalhe extends Component<Props, State> {
                 }
             },
             dataReferencia: "",
-            cdTipoFolha: ""
+            cdTipoFolha: "",
+            cdEspecie: ""
         }
     }
 
@@ -79,19 +81,31 @@ export class ContrachequeDetalhe extends Component<Props, State> {
     carregarContracheque = async () => {
         var dataReferencia = this.props.navigation.getParam("referencia", "0");
         var cdTipoFolha = this.props.navigation.getParam("tipoFolha", "0");
-        var contracheque = await FichaFinanceiraAssistidoService.BuscarPorPlanoReferenciaTipoFolha(this.state.plano.CD_PLANO, dataReferencia, cdTipoFolha);
-        await this.setState({ contracheque, dataReferencia, cdTipoFolha });
+        var cdEspecie = this.props.navigation.getParam("cdEspecie", "0");
+        var contracheque = await ContrachequeService.BuscarPorPlanoReferenciaTipoFolhaEspecie(this.state.plano.CD_PLANO, dataReferencia, cdTipoFolha, cdEspecie);
+        await this.setState({ contracheque, dataReferencia, cdTipoFolha, cdEspecie });
     }
 
     enviar = async () => {
         try {
-            var resultado = await ContrachequeService.Relatorio(this.state.plano.CD_PLANO, this.state.dataReferencia, this.state.cdTipoFolha, true);
-            await alert(resultado);
+            await this.setState({ loading: true });
+
+            var resultado = await ContrachequeService.Relatorio(this.state.plano.CD_PLANO, this.state.dataReferencia, this.state.cdTipoFolha, this.state.cdEspecie, true);
+            
+            await this.setState({ loading: false });
+            
+            setTimeout(async () => {
+                await AsyncAlert(resultado);
+            }, 500);
         }  catch(err) {
-            if(err.response)
-                console.log(err.response.data);
-            else
-                console.log(err);
+            await this.setState({ loading: false });
+
+            if(err.response) {
+                await AsyncAlert(err.response.data);
+            }
+            else {
+                await AsyncAlert(err);
+            }
         }
     }
 
@@ -100,7 +114,7 @@ export class ContrachequeDetalhe extends Component<Props, State> {
             <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
                 <Loader loading={this.state.loading} />
                 
-                {!this.state.loading &&
+                {this.state.contracheque &&
                     <Box titulo={`Contracheque de ${this.state.dataReferencia.substring(3)}`}>
                         <View style={{ padding: 10 }}>
 

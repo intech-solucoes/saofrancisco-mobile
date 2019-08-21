@@ -36,10 +36,10 @@ export class PrimeiroAcesso extends Component<Props, State> {
 
         // Cria o state do componente
         this.state = {
-            cpf: "15243362115",
-			dataNascimento: "01/03/1957",
-			//cpf: "",
-			//dataNascimento: "",
+            //cpf: "15243362115",
+			//dataNascimento: "01/03/1957",
+			cpf: "",
+			dataNascimento: "",
             loading: false
         };
 	}

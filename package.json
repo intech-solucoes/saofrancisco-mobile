@@ -1,6 +1,6 @@
 {
   "main": "node_modules/expo/AppEntry.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -11,13 +11,14 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
-    "@intechprev/prevsystem-service": "../prevsystem-service",
+    "@intechprev/prevsystem-service": "file:../prevsystem-service",
     "@intechprev/react-lib": "^1.0.4",
     "@types/expo": "^32.0.13",
     "@types/lodash": "^4.14.136",
     "@types/moment": "^2.13.0",
     "expo": "^33.0.0",
     "expo-constants": "~5.0.1",
+    "expo-file-system": "~5.0.1",
     "expo-fontawesome": "^0.1.2",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
