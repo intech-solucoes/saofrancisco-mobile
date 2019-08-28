@@ -3,7 +3,7 @@ import { View, Text, AsyncStorage, StatusBar, TextStyle } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { NavigationScreenProp } from "react-navigation";
 
-import { DadosPessoaisService, PlanoService } from "@intechprev/prevsystem-service";
+import { DadosPessoaisService, PlanoService, UsuarioService, FuncionarioService } from "@intechprev/prevsystem-service";
 
 import Styles, { Variables } from "../../styles";
 import { Button } from "../../components";
@@ -34,6 +34,8 @@ interface State {
     loading: boolean;
     planos: Array<any>;
     dados: any;
+    matriculas: Array<any>;
+    matriculaSelecionada: boolean;
 }
 
 export class Planos extends React.Component<Props, State> {
@@ -50,7 +52,9 @@ export class Planos extends React.Component<Props, State> {
             dados: {
                 dadosPessoais: {}
             },
-            planos: []
+            planos: [],
+            matriculas: [],
+            matriculaSelecionada: false
         }
     }
 
@@ -58,8 +62,21 @@ export class Planos extends React.Component<Props, State> {
         try {
             //await this.setState({ loading: true });
 
-            await this.carregarDadosPessoais();
-            await this.carregarPlanos();
+            var matriculas = await UsuarioService.BuscarMatriculas();
+
+            if(matriculas.length > 1) {
+                await this.setState({
+                    matriculas,
+                    matriculaSelecionada: false
+                });
+            } else {
+                await this.setState({
+                    matriculaSelecionada: true
+                });
+
+                await this.carregarDadosPessoais();
+                await this.carregarPlanos();
+            }
 
             //await this.setState({ loading: false });
         } catch(err) {
@@ -71,6 +88,20 @@ export class Planos extends React.Component<Props, State> {
                 console.warn(err);
             }
         }
+    }
+
+    selecionarMatricula = async (matricula: string) => {
+        var funcionarioResult = await FuncionarioService.Buscar();
+        await AsyncStorage.setItem("fundacao", funcionarioResult.Funcionario.CD_FUNDACAO);
+        await AsyncStorage.setItem("empresa", funcionarioResult.Funcionario.CD_EMPRESA);
+
+        var funcionarioLogin = await UsuarioService.SelecionarMatricula(matricula);
+        await AsyncStorage.setItem("token", funcionarioLogin.AccessToken);
+        await AsyncStorage.setItem("admin", funcionarioLogin.Admin);
+
+        await this.setState({
+            matriculaSelecionada: true
+        });
     }
 
     carregarDadosPessoais = async () => {
@@ -98,18 +129,41 @@ export class Planos extends React.Component<Props, State> {
                     <View>
                         <Text style={Styles.h3}>Olá,</Text>
                         <Text style={[ Styles.h1, styles.header ]}>{this.state.dados.dadosPessoais.NOME_ENTID}</Text>
-                        <Text style={styles.subheader}>Selecione um de seus planos contratados com a São Francisco</Text>
-        
-                        {this.state.planos.map((plano, index) => (
-                            <View key={index} style={{ marginBottom: 20 }}>
-                                <Button title={plano.DS_PLANO} subtitle={plano.DS_CATEGORIA} 
-                                        titleStyle={[Styles.h2, styles.buttonText]}
-                                        onClick={() => this.selecionarPlano(plano)} />
+                        
+                        {!this.state.matriculaSelecionada && 
+                            <View>
+                                <Text style={styles.subheader}>Selecione uma de suas matrículas da São Francisco</Text>
+                                
+                                <View>
+                                    {this.state.matriculas.map((matricula, index) => (
+                                        <View key={index} style={{ marginBottom: 20 }}>
+                                            <Button title={matricula}
+                                                    titleStyle={[Styles.h2, styles.buttonText]}
+                                                    onClick={() => this.selecionarMatricula(matricula)} />
+                                        </View>
+                                    ))}
+                                </View>
                             </View>
-                        ))}
+                        }
 
-                        {this.state.planos.length === 0 &&
-                            <Text style={[ Styles.h1, { color: Variables.colors.red, textAlign: "center" }]}>Nenhum plano encontrado!</Text>}
+                        {this.state.matriculaSelecionada && 
+                            <View>
+                                <Text style={styles.subheader}>Selecione um de seus planos contratados com a São Francisco</Text>
+                                
+                                <View>
+                                    {this.state.planos.map((plano, index) => (
+                                        <View key={index} style={{ marginBottom: 20 }}>
+                                            <Button title={plano.DS_PLANO} subtitle={plano.DS_CATEGORIA} 
+                                                    titleStyle={[Styles.h2, styles.buttonText]}
+                                                    onClick={() => this.selecionarPlano(plano)} />
+                                        </View>
+                                    ))}
+
+                                    {this.state.planos.length === 0 &&
+                                        <Text style={[ Styles.h1, { color: Variables.colors.red, textAlign: "center" }]}>Nenhum plano encontrado!</Text>}
+                                </View>
+                            </View>
+                        }
                     </View>
                 }
             </View>

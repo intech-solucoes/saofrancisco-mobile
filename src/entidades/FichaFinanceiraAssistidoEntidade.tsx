@@ -16,7 +16,6 @@ export default class FichaFinanceiraAssistidoEntidade {
 	public VALOR_CT?: number;
 	public PRAZO?: number;
 	public CD_TIPO_FOLHA: string;
-	public GB__CD_FUNDACAO: string;
 	public NUM_PRESTACAO?: number;
 	public TOT_PRESTACAO?: number;
 	public VL_BASE_CALC?: number;
