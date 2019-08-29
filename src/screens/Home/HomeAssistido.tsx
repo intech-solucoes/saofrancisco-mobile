@@ -53,16 +53,20 @@ export class HomeAssistido extends Component<Props, State> {
     }
 
     carregarPlano = async () => {
-        var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlano(this.props.plano.CD_PLANO);
         var processoBeneficio = await ProcessoBeneficioService.BuscarPorPlano(this.props.plano.CD_PLANO);
-        var calendario = await CalendarioPagamentoService.BuscarPorPlano(this.props.plano.CD_PLANO);
-        await this.setState({ ultimaFolha, processoBeneficio, calendario });
+        
+        if(processoBeneficio.length > 0) {
+            var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlano(this.props.plano.CD_PLANO);
+            var calendario = await CalendarioPagamentoService.BuscarPorPlano(this.props.plano.CD_PLANO);
+            
+            await this.setState({ ultimaFolha, processoBeneficio, calendario });
+        }
     }
 
     render() {
         return (
             <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
-                {this.props.plano && this.state.calendario &&
+                {this.state.calendario &&
                     <Grid>
                         <Loader loading={this.state.loading} />
                         <Alert ref={this.alerta} />
@@ -116,72 +120,74 @@ export class HomeAssistido extends Component<Props, State> {
                         }
                         <Row>
                             <Col>
-                                <Box titulo={`Contracheque de ${this.state.ultimaFolha.Resumo.Referencia.substring(3)}`} subtitulo={this.props.plano.CD_PLANO === "0002" && `Valor da cota: ${this.state.ultimaFolha.Resumo.Indice.VALOR_IND}`}>
-                                    <Text>Valor Líquido: </Text>
-                                    <CampoEstatico valor={this.state.ultimaFolha.Resumo.Liquido} tipo={TipoCampoEstatico.dinheiro} />
+                                {this.state.ultimaFolha.Proventos.length > 0 &&
+                                    <Box titulo={`Contracheque de ${this.state.ultimaFolha.Resumo.Referencia.substring(3)}`} subtitulo={this.props.plano.CD_PLANO === "0002" && `Valor da cota: ${this.state.ultimaFolha.Resumo.Indice.VALOR_IND}`}>
+                                        <Text>Valor Líquido: </Text>
+                                        <CampoEstatico valor={this.state.ultimaFolha.Resumo.Liquido} tipo={TipoCampoEstatico.dinheiro} />
 
-                                    <Grid>
-                                        {this.state.ultimaFolha.Proventos.map((rubrica: any, index: number) => {
-                                            var usaBorda = this.state.ultimaFolha.Proventos.length > 1 && index < this.state.ultimaFolha.Proventos.length;
+                                        <Grid>
+                                            {this.state.ultimaFolha.Proventos.map((rubrica: any, index: number) => {
+                                                var usaBorda = this.state.ultimaFolha.Proventos.length > 1 && index < this.state.ultimaFolha.Proventos.length;
 
-                                            var borda = {};
-                                            if(usaBorda)
-                                                borda = { marginTop: 10, paddingTop: 10, borderBottomColor: "#CCC", borderBottomWidth: 1 };
-                                                
-                                            return (
-                                                <Row key={index} style={borda}>
-                                                    <Col>
-                                                        <Row>
-                                                            <Col>
-                                                                <Text style={{ fontWeight: "bold" }}>{rubrica.DS_RUBRICA}</Text>
-                                                            </Col>
-                                                        </Row>
-                                                        <Row>
-                                                            <Col>
-                                                                <Text style={{ color: "#CCC" }}>{rubrica.DT_COMPETENCIA}</Text>
-                                                            </Col>
-                                                        </Row>
-                                                        <Row>
-                                                            <Col>
-                                                                <CampoEstatico valor={rubrica.VALOR_MC} tipo={TipoCampoEstatico.dinheiro} semEspaco />
-                                                            </Col>
-                                                            <Col>
-                                                                <Text style={{ color: Variables.colors.secondary, textAlign: "right" }}>Provento</Text>
-                                                            </Col>
-                                                        </Row>
-                                                    </Col>
-                                                </Row>
-                                            )
-                                        })}
+                                                var borda = {};
+                                                if(usaBorda)
+                                                    borda = { marginTop: 10, paddingTop: 10, borderBottomColor: "#CCC", borderBottomWidth: 1 };
+                                                    
+                                                return (
+                                                    <Row key={index} style={borda}>
+                                                        <Col>
+                                                            <Row>
+                                                                <Col>
+                                                                    <Text style={{ fontWeight: "bold" }}>{rubrica.DS_RUBRICA}</Text>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row>
+                                                                <Col>
+                                                                    <Text style={{ color: "#CCC" }}>{rubrica.DT_COMPETENCIA}</Text>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row>
+                                                                <Col>
+                                                                    <CampoEstatico valor={rubrica.VALOR_MC} tipo={TipoCampoEstatico.dinheiro} semEspaco />
+                                                                </Col>
+                                                                <Col>
+                                                                    <Text style={{ color: Variables.colors.secondary, textAlign: "right" }}>Provento</Text>
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                    </Row>
+                                                )
+                                            })}
 
-                                        {this.state.ultimaFolha.Descontos.map((rubrica: any, index: number) => {
-                                            return (
-                                                <Row key={index} style={{ marginTop: 10, paddingTop: 10, borderTopColor: "#CCC", borderTopWidth: 1 }}>
-                                                    <Col>
-                                                        <Row>
-                                                            <Col>
-                                                                <Text style={{ fontWeight: "bold" }}>{rubrica.DS_RUBRICA}</Text>
-                                                            </Col>
-                                                        </Row>
-                                                        <Row>
-                                                            <Col>
-                                                                <Text style={{ color: "#CCC" }}>{rubrica.DT_COMPETENCIA}</Text>
-                                                            </Col>
-                                                        </Row>
-                                                        <Row>
-                                                            <Col>
-                                                                <CampoEstatico valor={rubrica.VALOR_MC} tipo={TipoCampoEstatico.dinheiro} semEspaco />
-                                                            </Col>
-                                                            <Col>
-                                                                <Text style={{ color: Variables.colors.red, textAlign: "right" }}>Desconto</Text>
-                                                            </Col>
-                                                        </Row>
-                                                    </Col>
-                                                </Row>
-                                            )
-                                        })}
-                                    </Grid>
-                                </Box>
+                                            {this.state.ultimaFolha.Descontos.map((rubrica: any, index: number) => {
+                                                return (
+                                                    <Row key={index} style={{ marginTop: 10, paddingTop: 10, borderTopColor: "#CCC", borderTopWidth: 1 }}>
+                                                        <Col>
+                                                            <Row>
+                                                                <Col>
+                                                                    <Text style={{ fontWeight: "bold" }}>{rubrica.DS_RUBRICA}</Text>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row>
+                                                                <Col>
+                                                                    <Text style={{ color: "#CCC" }}>{rubrica.DT_COMPETENCIA}</Text>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row>
+                                                                <Col>
+                                                                    <CampoEstatico valor={rubrica.VALOR_MC} tipo={TipoCampoEstatico.dinheiro} semEspaco />
+                                                                </Col>
+                                                                <Col>
+                                                                    <Text style={{ color: Variables.colors.red, textAlign: "right" }}>Desconto</Text>
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                    </Row>
+                                                )
+                                            })}
+                                        </Grid>
+                                    </Box>
+                                }
                             </Col>
                         </Row>
 
@@ -214,6 +220,10 @@ export class HomeAssistido extends Component<Props, State> {
                             </Col>
                         </Row>
                     </Grid>
+                }
+
+                {!this.state.calendario &&
+                    <Text>Carregando...</Text>
                 }
             </ScrollView>
         )

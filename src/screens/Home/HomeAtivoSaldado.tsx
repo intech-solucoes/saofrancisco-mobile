@@ -96,6 +96,10 @@ export class HomeAtivoSaldado extends Component<Props, State> {
                         </Row>
                     </Grid>
                 }
+
+                {!this.state.plano &&
+                    <Text>Carregando...</Text>
+                }
             </ScrollView>
         )
     }

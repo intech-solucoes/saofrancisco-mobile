@@ -63,7 +63,7 @@ export class HomeAtivo extends Component<Props, State> {
     render() {
         return (
             <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
-                {this.props.plano && this.state.ultimaContribuicao &&
+                {this.state.ultimaContribuicao &&
                     <Grid>
                         <Loader loading={this.state.loading} />
                         <Alert ref={this.alerta} />
@@ -218,6 +218,10 @@ export class HomeAtivo extends Component<Props, State> {
                             </Col>
                         </Row>
                     </Grid>
+                }
+                
+                {!this.state.ultimaContribuicao &&
+                    <Text>Carregando...</Text>
                 }
             </ScrollView>
         )

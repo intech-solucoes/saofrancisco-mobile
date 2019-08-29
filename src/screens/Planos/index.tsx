@@ -62,6 +62,7 @@ export class Planos extends React.Component<Props, State> {
         try {
             //await this.setState({ loading: true });
 
+            await this.carregarDadosPessoais();
             var matriculas = await UsuarioService.BuscarMatriculas();
 
             if(matriculas.length > 1) {
@@ -74,7 +75,6 @@ export class Planos extends React.Component<Props, State> {
                     matriculaSelecionada: true
                 });
 
-                await this.carregarDadosPessoais();
                 await this.carregarPlanos();
             }
 
@@ -91,17 +91,23 @@ export class Planos extends React.Component<Props, State> {
     }
 
     selecionarMatricula = async (matricula: string) => {
-        var funcionarioResult = await FuncionarioService.Buscar();
-        await AsyncStorage.setItem("fundacao", funcionarioResult.Funcionario.CD_FUNDACAO);
-        await AsyncStorage.setItem("empresa", funcionarioResult.Funcionario.CD_EMPRESA);
+        try {
+            var funcionarioResult = await FuncionarioService.Buscar();
+            await AsyncStorage.setItem("fundacao", funcionarioResult.Funcionario.CD_FUNDACAO);
+            await AsyncStorage.setItem("empresa", funcionarioResult.Funcionario.CD_EMPRESA);
 
-        var funcionarioLogin = await UsuarioService.SelecionarMatricula(matricula);
-        await AsyncStorage.setItem("token", funcionarioLogin.AccessToken);
-        await AsyncStorage.setItem("admin", funcionarioLogin.Admin);
+            var funcionarioLogin = await UsuarioService.SelecionarMatricula(matricula);
+            await AsyncStorage.setItem("token", funcionarioLogin.AccessToken);
+            await AsyncStorage.setItem("admin", funcionarioLogin.Admin);
 
-        await this.setState({
-            matriculaSelecionada: true
-        });
+            await this.setState({
+                matriculaSelecionada: true
+            });
+
+            await this.carregarPlanos();
+        } catch(err) {
+            alert("Ocorreu um erro ao selecionar esta matrícula. Verifique sua situação no plano junto com a São Francisco.");
+        }
     }
 
     carregarDadosPessoais = async () => {
@@ -158,6 +164,14 @@ export class Planos extends React.Component<Props, State> {
                                                     onClick={() => this.selecionarPlano(plano)} />
                                         </View>
                                     ))}
+
+                                    {this.state.matriculas.length > 1 &&
+                                        <View style={{ marginBottom: 20 }}>
+                                            <Button title={"Trocar de Matrícula"} 
+                                                    titleStyle={[Styles.h2, styles.buttonText]}
+                                                    onClick={() => this.setState({ matriculaSelecionada: false })} />
+                                        </View>
+                                    }
 
                                     {this.state.planos.length === 0 &&
                                         <Text style={[ Styles.h1, { color: Variables.colors.red, textAlign: "center" }]}>Nenhum plano encontrado!</Text>}
