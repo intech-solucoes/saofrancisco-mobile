@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Text, Button, View, StyleSheet, TouchableHighlight, Image, ScrollView, AsyncStorage, Alert } from "react-native";
+import { Text, Button, View, StyleSheet, TouchableHighlight, Image, ScrollView, AsyncStorage, Alert, StatusBar } from "react-native";
 import Styles, { Variables } from "../../styles";
 
-import { DadosPessoaisService, PlanoService } from "@intechprev/prevsystem-service";
+import { DadosPessoaisService, PlanoService, ProcessoBeneficioService } from "@intechprev/prevsystem-service";
 import { NavigationScreenProp } from 'react-navigation';
 import { HomeAtivo } from './HomeAtivo';
 import { HomeAssistido } from './HomeAssistido';
 import { HomeAtivoSaldado } from './HomeAtivoSaldado';
+import { Box, DropDown } from '../../components';
 
 interface Props {
     navigation: NavigationScreenProp<any, any>;
@@ -16,9 +17,13 @@ interface State {
     loading: boolean;
     plano: any;
     dados: any;
+    processosBeneficio: any;
+    processo: any;
+    especieAnoNumProcesso: string;
 }
 
 export class Home extends Component<Props, State> {
+    public homeAssistido = React.createRef<HomeAssistido>();
 
     static navigationOptions = {
         title: "Home"
@@ -33,6 +38,9 @@ export class Home extends Component<Props, State> {
             dados: {
                 dadosPessoais: {}
             },
+            processosBeneficio: {},
+            processo: {},
+            especieAnoNumProcesso: "",
         }
     }
 
@@ -100,19 +108,83 @@ export class Home extends Component<Props, State> {
     carregarPlano = async () => {
         var cdPlano = await AsyncStorage.getItem("plano");
         var plano = await PlanoService.BuscarPorCodigo(cdPlano);
+
+        if(plano.CD_CATEGORIA === "4") {
+            var processosBeneficio = await ProcessoBeneficioService.BuscarPorPlano(cdPlano);
+        
+            var processo = processosBeneficio[0];
+            var especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
+            
+            await this.setState({
+                processosBeneficio,
+                processo,
+                especieAnoNumProcesso
+            });
+        }
+        
+        await this.setState({ 
+            plano
+        });
+
         await this.setState({ plano });
     }
 
-    render() {
+    carregarProcesso = async () => {
+        var processo = null;
+        var especieAnoNumProcesso = "";
+        
+        if(this.state.especieAnoNumProcesso)
+            processo = _.filter(this.state.processosBeneficio, (processo: any) => processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO === this.state.especieAnoNumProcesso)[0];
+        else
+            processo = this.state.processosBeneficio[0];
+
+            especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
+
+        await this.homeAssistido.current.selecionarProcesso(processo);
+
+        await this.setState({
+            processo,
+            especieAnoNumProcesso
+        });
+    }
+
+    renderHome = () => {
         if(this.state.plano) {
             if(this.state.plano.CD_PLANO === "0003" && this.state.plano.CD_CATEGORIA === "1")
-                return <HomeAtivoSaldado {...this.props} plano={this.state.plano} />
+                return <HomeAtivoSaldado {...this.props} plano={this.state.plano} />;
             else if(this.state.plano.CD_PLANO !== "0003" && this.state.plano.CD_CATEGORIA === "1")
-                return <HomeAtivo {...this.props} plano={this.state.plano} />
+                return <HomeAtivo {...this.props} plano={this.state.plano} />;
             else if(this.state.plano.CD_CATEGORIA === "4")
-                return <HomeAssistido {...this.props} plano={this.state.plano} />
-        } else {
-            return null;
+                return <HomeAssistido {...this.props} plano={this.state.plano} />;
+            else
+            
+                return <Text>Carregando... {this.state.plano.CD_PLANO}</Text>;
         }
+        return <Text>Carregando...</Text>;
+    }
+
+    render() {
+        return (
+            <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
+                <StatusBar
+                    animated={true}
+                    translucent={true}
+                    barStyle={'light-content'}
+                    backgroundColor={Variables.colors.primary}
+                />
+                
+                <View>
+                    {this.state.processosBeneficio.length > 1 &&
+                        <Box titulo={"Selecione um processo de benefício:"}>
+                            <DropDown titulo={"Selecione um processo"} valor={this.state.especieAnoNumProcesso}
+                                    itens={this.state.processosBeneficio}
+                                    onValueChange={(itemValue: any) => this.carregarProcesso()} />
+                        </Box>
+                    }
+
+                    {this.renderHome()}
+                </View>
+            </ScrollView>
+        );
     }
 };

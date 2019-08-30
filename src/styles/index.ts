@@ -8,7 +8,7 @@ export default {
         padding: 20
     },
     container: {
-        flex: 1
+        //flex: 1
     },
     button: {
         alignItems: 'center',
@@ -42,8 +42,10 @@ export default {
     textInput: {
         backgroundColor: "transparent",
         height: 40, 
-        padding: 10,
-        borderColor: "#FFFFFF"
+        padding: 0,
+        borderBottomWidth: 2,
+        borderBottomColor: Variables.colors.primary,
+        marginHorizontal: 10,
     },
     h1: {
         fontSize: 24

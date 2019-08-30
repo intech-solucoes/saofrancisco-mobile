@@ -30,6 +30,11 @@
 		"android": {
 			"package": "com.intech.saofrancisco",
 			"versionCode": 1
-		}
+        },
+        // "androidStatusBarColor": "#FFFFFF",
+        "androidStatusBar": {
+            "barStyle": "dark-content",
+            "backgroundColor": "#FFFFFF"
+        }
 	}
 }

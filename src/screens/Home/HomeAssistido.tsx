@@ -56,11 +56,24 @@ export class HomeAssistido extends Component<Props, State> {
         var processoBeneficio = await ProcessoBeneficioService.BuscarPorPlano(this.props.plano.CD_PLANO);
         
         if(processoBeneficio.length > 0) {
-            var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlano(this.props.plano.CD_PLANO);
+            var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlanoProcesso(this.props.plano.CD_PLANO, processoBeneficio[0].CD_ESPECIE, processoBeneficio[0].ANO_PROCESSO, processoBeneficio[0].NUM_PROCESSO);
             var calendario = await CalendarioPagamentoService.BuscarPorPlano(this.props.plano.CD_PLANO);
             
-            await this.setState({ ultimaFolha, processoBeneficio, calendario });
+            await this.setState({ 
+                ultimaFolha, 
+                processoBeneficio: processoBeneficio[0],
+                calendario 
+            });
         }
+    }
+
+    selecionarProcesso = async (processoBeneficio: any) => {
+
+        var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlanoProcesso(processoBeneficio.CD_PLANO, processoBeneficio.CD_ESPECIE, processoBeneficio.ANO_PROCESSO, processoBeneficio.NUM_PROCESSO);
+        await this.setState({
+            ultimaFolha,
+            processoBeneficio
+        });
     }
 
     render() {

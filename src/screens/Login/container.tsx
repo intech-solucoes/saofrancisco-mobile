@@ -10,13 +10,17 @@ interface Props {
 export default class Container extends React.Component<Props> {
     render() {
         return (
-            <KeyboardAvoidingView style={[loginStyles.container]} behavior={"padding"}>
-                <ScrollView>
-
-                    <StatusBar translucent backgroundColor="rgba(0, 0, 0, 0.20)" animated />
+            <KeyboardAvoidingView style={[loginStyles.container]} behavior={"height"}>
+                <ScrollView style={loginStyles.content}>
+                    <StatusBar
+                        animated={true}
+                        translucent={false}
+                        barStyle={'dark-content'}
+                        backgroundColor={'#FFFFFF'}
+                    />
 
                     <View style={loginStyles.header}>
-                        <Image source={require("../../assets/logo.png")} style={loginStyles.logo} />
+                        <Image source={require("../../assets/logo.png")} style={loginStyles.logo} resizeMode="contain" />
                     </View>
 
                     <View style={loginStyles.subtitulo}>

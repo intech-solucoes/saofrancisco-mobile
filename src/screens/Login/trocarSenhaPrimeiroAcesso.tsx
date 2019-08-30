@@ -96,12 +96,14 @@ export class TrocarSenhaPrimeiroAcesso extends React.Component<Props, State> {
                         gerada automaticamente, será necessário que você crie uma nova senha, com no mínimo 6 caracteres.
                     </Text>
                     
-                    <View style={loginStyles.content}>
-                        <Text style={loginStyles.label}>Nova Senha</Text>
-                        <TextInput style={Styles.textInput} placeholder="•••" returnKeyType="next" blurOnSubmit={false} underlineColorAndroid="transparent"
-                            value={this.state.senhaNova} secureTextEntry={true}
-                            onSubmitEditing={() => { this.focusNextField('confirmarSenha'); }} onChangeText={value => this.setState({ senhaNova: value })}
-                            ref={input => { this.inputs['cpf'] = input; }} />
+                    <View style={{ marginTop: 30 }}>
+                        <View style={{ marginBottom: 30 }}>
+                            <Text style={loginStyles.label}>Nova Senha</Text>
+                            <TextInput style={Styles.textInput} placeholder="•••" returnKeyType="next" blurOnSubmit={false} underlineColorAndroid="transparent"
+                                value={this.state.senhaNova} secureTextEntry={true}
+                                onSubmitEditing={() => { this.focusNextField('confirmarSenha'); }} onChangeText={value => this.setState({ senhaNova: value })}
+                                ref={input => { this.inputs['cpf'] = input; }} />
+                        </View>
 
                         <Text style={loginStyles.label}>Confirme nova senha</Text>
                         <TextInput style={Styles.textInput} placeholder="•••" returnKeyType="done"

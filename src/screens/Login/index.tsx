@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Switch, AlertAndroid, AsyncStorage } from "react-native";
+import { View, Text, TextInput, Switch, AlertAndroid, AsyncStorage, StatusBar } from "react-native";
 
 import { Button, Loader, Alert } from "../../components";
 
@@ -11,6 +11,7 @@ import loginStyles from "./styles";
 
 import { UsuarioService, FuncionarioService, PlanoService, LGPDService } from "@intechprev/prevsystem-service";
 import { NavigationScreenProp } from 'react-navigation';
+import { TextInputMask } from 'react-native-masked-text';
 
 interface Props {
     navigation: NavigationScreenProp<any, any>;
@@ -45,10 +46,10 @@ export class Login extends React.Component<Props, State> {
         // Cria o state do componente
         this.state = {
             //cpf: "15243362115",
-            //cpf: "12116130115",
-            //senha: "123456",
-            cpf: "",
-            senha: "",
+            cpf: "24931349668",
+            senha: "123",
+            //cpf: "",
+            //senha: "",
             lembrar: false,
             loading: false,
             modalVisible: false,
@@ -149,15 +150,15 @@ export class Login extends React.Component<Props, State> {
     render() {
         return (
             <Container subtitulo={"Bem vindo ao aplicativo da São Francisco"}>
-                <View style={loginStyles.content}>
+                <View>
                     <Loader loading={this.state.loading} />
                     <Alert ref={this.alerta} />
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
                         <View>
                             <Text style={loginStyles.label}>CPF</Text>
-                            <TextInput style={Styles.textInput} placeholder="Digite aqui seu CPF" returnKeyType="next" blurOnSubmit={false} underlineColorAndroid="transparent"
-                                       value={this.state.cpf}
+                            <TextInput style={Styles.textInput} placeholder="Digite aqui seu CPF" returnKeyType="next" blurOnSubmit={false}
+                                       value={this.state.cpf} keyboardType={'numeric'}
                                        onSubmitEditing={() => { this.focusNextField('senha'); }} onChangeText={value => this.setState({ cpf: value })}
                                        ref={input => { this.inputs['cpf'] = input; }} />
                         </View>
@@ -168,13 +169,21 @@ export class Login extends React.Component<Props, State> {
                                         onValueChange={value => this.setState({ lembrar: value })} style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }} />
                             </View>
                         </View>
+                    </View> */}
+
+                    <View style={{ marginBottom: 40 }}>
+                        <Text style={loginStyles.label}>CPF</Text>
+                        <TextInputMask style={Styles.textInput} returnKeyType="next" blurOnSubmit={false} type={'cpf'}
+                                    value={this.state.cpf} keyboardType={'numeric'}
+                                    onSubmitEditing={() => { this.focusNextField('senha'); }} onChangeText={value => this.setState({ cpf: value })}
+                                    ref={input => { this.inputs['cpf'] = input; }} />
                     </View>
 
                     {this.state.digitalAccess == false &&
                         <Text style={loginStyles.label}>Senha</Text>
                     }
                     {this.state.digitalAccess == false &&
-                        <TextInput style={Styles.textInput} placeholder="Digite aqui sua senha" returnKeyType="done" secureTextEntry={true}
+                        <TextInput style={Styles.textInput} returnKeyType="done" secureTextEntry={true}
                                    value={this.state.senha}
                                    ref={input => { this.inputs['senha'] = input; }} onChangeText={value => this.setState({ senha: value })} />
                     }

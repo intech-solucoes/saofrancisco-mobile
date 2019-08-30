@@ -3,13 +3,13 @@ import { ViewStyle, TextStyle } from "react-native";
 
 export default {
     container: {
-        backgroundColor: "#E9E9E9",
+        backgroundColor: "#FFFFFF",
         flex: 1
     },
     header: {
         paddingHorizontal: 100,
         paddingVertical: 50,
-        marginTop: 40,
+        marginTop: 20,
         alignItems: "center"
     } as ViewStyle,
     subtitulo: {
@@ -22,21 +22,21 @@ export default {
         textAlign: "center"
     } as TextStyle,
     logo: {
-        height: 90,
-        width: 170
+        width: 300
     },
     content: {
-        padding: 15,
-        margin: 20,
+        padding: 20,
+        //margin: 20,
         marginBottom: 10,
         backgroundColor: "#FFF",
         borderRadius: 10
     },
     label: {
-        color: Variables.colors.primary,
+        color: Variables.colors.grayDark,
         marginLeft: 10,
-        fontSize: 12
-    },
+        fontSize: 12,
+        fontWeight: "bold"
+    } as TextStyle,
     loginFingerprint: {
         backgroundColor: Variables.colors.primary,
         marginRight: 0,
@@ -51,6 +51,8 @@ export default {
         
     },
     loginButton: {
-        marginTop: 10
+        marginTop: 40,
+        padding: 15,
+        borderRadius: 40
     }
 }; 
