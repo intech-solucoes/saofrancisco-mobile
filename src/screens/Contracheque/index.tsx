@@ -70,7 +70,7 @@ export class Contracheque extends Component<Props, State> {
                     <View>
                         {this.state.especies.map((especie: any, index: number) => {
                             return (
-                                <Box key={index} titulo={especie.DS_ESPECIE}>
+                                <Box key={index} titulo={especie.Especie.DS_ESPECIE}>
 
                                     {especie.Lista.map((contracheque: any, index2: number) => {
                                         return (

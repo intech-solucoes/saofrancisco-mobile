@@ -54,5 +54,11 @@ export default {
         marginTop: 40,
         padding: 15,
         borderRadius: 40
+    },
+    loginButtonLight: {
+        marginTop: 40,
+        padding: 15,
+        borderRadius: 40,
+        backgroundColor: "#CCC"
     }
 }; 

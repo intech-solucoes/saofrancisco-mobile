@@ -129,6 +129,12 @@ export class Planos extends React.Component<Props, State> {
     render() { 
         return (
             <View style={[Styles.content, { paddingTop: 50 }]}>
+                <StatusBar
+                    animated={true}
+                    translucent={false}
+                    barStyle={'dark-content'}
+                    backgroundColor={'#FFFFFF'}
+                />
                 <Spinner visible={this.state.loading} cancelable={true} />
 
                 {!this.state.loading &&

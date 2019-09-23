@@ -13,6 +13,8 @@ interface Props {
     valorVazio?: any;
     onValueChange?: any;
     itens: any;
+    nomeMembro?: string;
+    valorMembro?: string;
 }
 
 export default class DropDown extends React.Component<Props> {
@@ -43,11 +45,15 @@ export default class DropDown extends React.Component<Props> {
                 >
                     <Picker.Item label={this.props.textoVazio} value={this.props.valorVazio} />
         
-                    {this.props.itens.map((item, index) => {
-                        if(typeof(item) === "string" || typeof(item) === "number")
-                            return <Picker.Item key={index} label={prefixo + item.toString() + sufixo} value={item} />
-                        else
-                            return <Picker.Item key={index} label={prefixo + item.titulo + sufixo} value={item.valor} />
+                    {this.props.itens.map((item: any, index: number) => {
+                        if(this.props.nomeMembro) {
+                            return <Picker.Item key={index} label={prefixo + item[this.props.nomeMembro] + sufixo} value={item[this.props.valorMembro]} />
+                        } else {
+                            if(typeof(item) === "string" || typeof(item) === "number")
+                                return <Picker.Item key={index} label={prefixo + item.toString() + sufixo} value={item} />
+                            else
+                                return <Picker.Item key={index} label={prefixo + item.titulo + sufixo} value={item.valor} />
+                        }
                     })}
                 </Picker>
             );
@@ -72,10 +78,14 @@ export default class DropDown extends React.Component<Props> {
                     onValueChange={this.props.onValueChange}
                 >
                     {this.props.itens.map((item, index) => {
-                        if(typeof(item) === "string" || typeof(item) === "number")
-                            return <Picker.Item key={index} label={prefixo + item.toString() + sufixo} value={item} />
-                        else
-                            return <Picker.Item key={index} label={prefixo + item.titulo + sufixo} value={item.valor} />
+                        if(this.props.nomeMembro) {
+                            return <Picker.Item key={index} label={prefixo + item[this.props.nomeMembro] + sufixo} value={item} />
+                        } else {
+                            if(typeof(item) === "string" || typeof(item) === "number")
+                                return <Picker.Item key={index} label={prefixo + item.toString() + sufixo} value={item} />
+                            else
+                                return <Picker.Item key={index} label={prefixo + item.titulo + sufixo} value={item.valor} />
+                        }
                     })}
                 </Picker>
             );

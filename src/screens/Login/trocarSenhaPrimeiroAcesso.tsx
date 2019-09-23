@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, AsyncStorage, TextInput } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
+import { View, Text, AsyncStorage, TextInput, StatusBar, KeyboardAvoidingView } from "react-native";
+import { NavigationScreenProp, ScrollView } from "react-navigation";
 import { LGPDService, FuncionarioService, UsuarioService, PlanoService } from "@intechprev/prevsystem-service";
 
 import Container from "./container";
@@ -87,10 +87,17 @@ export class TrocarSenhaPrimeiroAcesso extends React.Component<Props, State> {
 
     render() {
         return (
-			<Container subtitulo={"Primeiro Acesso"}>
-                <View style={loginStyles.content}>
-                    <Text>Olá, {this.state.nomeUsuario},</Text>
-                    <Text>Seja bem-vindo!</Text>
+            <KeyboardAvoidingView style={[loginStyles.container]} behavior={"height"}>
+                <ScrollView style={loginStyles.content}>
+                    <StatusBar
+                        animated={true}
+                        translucent={false}
+                        barStyle={'dark-content'}
+                        backgroundColor={'#FFFFFF'}
+                    />
+                    <Text style={[Styles.h1, { marginVertical: 40 }]}>PRIMEIRO ACESSO</Text>
+                    <Text style={[Styles.h3, { marginVertical: 10 }]}>Olá, {this.state.nomeUsuario},</Text>
+                    <Text>Seja bem-vindo(a)!</Text>
                     <Text>
                         Esse é o seu primeiro acesso ao Portal da Fundação São Francisco! Como você recebeu uma nova senha 
                         gerada automaticamente, será necessário que você crie uma nova senha, com no mínimo 6 caracteres.
@@ -115,8 +122,8 @@ export class TrocarSenhaPrimeiroAcesso extends React.Component<Props, State> {
                             <Button title="Enviar" onClick={this.trocarSenha} style={loginStyles.loginButton} />
                         </View>
                     </View>
-                </View>
-            </Container>
+                </ScrollView>
+            </KeyboardAvoidingView>
         );
     }
 }

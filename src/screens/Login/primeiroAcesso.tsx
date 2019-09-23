@@ -78,14 +78,16 @@ export class PrimeiroAcesso extends Component<Props, State> {
                 <Spinner visible={this.state.loading} />
 				<Alert ref={this.alerta} onClose={this.closeModal} />
                 
-                <View style={loginStyles.content}>
+                <View>
 					<Text style={{ marginBottom: 20, marginHorizontal: 10, color: Variables.colors.grayDark }}>Insira os dados abaixo para que possamos confirmar sua identidade. Logo após, uma nova senha será enviada para seu e-mail.</Text>
 
-					<Text style={loginStyles.label}>CPF</Text>
-					<TextInput style={Styles.textInput} placeholder="Digite aqui seu CPF" returnKeyType="next" blurOnSubmit={false} underlineColorAndroid="transparent"
-						value={this.state.cpf}
-						onSubmitEditing={() => { this.focusNextField('dataNascimento'); }} onChangeText={value => this.setState({ cpf: value })}
-						ref={input => { this.inputs['cpf'] = input; }} />
+                    <View style={{ marginBottom: 40 }}>
+                        <Text style={loginStyles.label}>CPF</Text>
+                        <TextInput style={Styles.textInput} placeholder="Digite aqui seu CPF" returnKeyType="next" blurOnSubmit={false} underlineColorAndroid="transparent"
+                            value={this.state.cpf}
+                            onSubmitEditing={() => { this.focusNextField('dataNascimento'); }} onChangeText={value => this.setState({ cpf: value })}
+                            ref={input => { this.inputs['cpf'] = input; }} />
+                    </View>
 
 					<Text style={loginStyles.label}>Data de Nascimento</Text>
 					<TextInputMask type={"datetime"} options={{ format: 'dd/MM/yyyy' }} style={Styles.textInput} placeholder="Digite aqui sua data de nascimento" returnKeyType="done"
