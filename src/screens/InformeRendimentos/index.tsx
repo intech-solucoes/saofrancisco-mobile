@@ -6,8 +6,11 @@ import { CampoEstatico, Loader, Box, DropDown, Button, AsyncAlert } from "../../
 
 import { PlanoService, InfoRendService } from "@intechprev/prevsystem-service";
 import { TipoCampoEstatico } from '../../components/CampoEstatico';
+import { NavigationScreenProp } from 'react-navigation';
 
-interface Props {}
+interface Props {
+    navigation: NavigationScreenProp<any, any>;
+}
 
 interface State {
     loading: boolean;
@@ -85,7 +88,7 @@ export class InformeRendimentos extends Component<Props, State> {
     render() {
         return (
             <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
-                <Loader loading={this.state.loading} />
+                <Loader loading={this.state.loading} {...this.props} />
 
                 {this.state.informe &&
                     <View>

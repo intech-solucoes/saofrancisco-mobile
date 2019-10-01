@@ -83,19 +83,19 @@ export class Relacionamento extends Component<Props, State> {
 
                 <Box>
                     <View style={{ padding: 10, marginBottom: 10, flex: 1 }}>
-                        <Text>Seu E-mail:</Text>
+                        <Text style={{ marginLeft: 10 }}>Seu E-mail:</Text>
                         <TextInput style={[Styles.textInput, { padding: 0, marginBottom: 0 }]} placeholder={"Digite aqui seu e-mail"} keyboardType={"email-address"} underlineColorAndroid="transparent"
                                    value={this.state.email} onChangeText={value => this.setState({ email: value })} />
                     </View>
 
                     <View style={{ padding: 10, marginBottom: 10, flex: 1 }}>
-                        <Text>Assunto:</Text>
+                        <Text style={{ marginLeft: 10 }}>Assunto:</Text>
                         <TextInput style={[Styles.textInput, { padding: 0, marginBottom: 0 }]} placeholder={"Digite aqui o assunto"} underlineColorAndroid="transparent"
                                 value={this.state.assunto} onChangeText={value => this.setState({ assunto: value })} />
                     </View>
 
                     <View style={{ padding: 10, marginBottom: 10, flex: 2 }}>
-                        <Text>Mensagem:</Text>
+                        <Text style={{ marginLeft: 10 }}>Mensagem:</Text>
                         <TextInput underlineColorAndroid="transparent" multiline
                                 value={this.state.mensagem}
                                 onChangeText={(text) => {

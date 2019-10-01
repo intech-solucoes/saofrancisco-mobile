@@ -5,12 +5,21 @@ import {
     Modal,
     ActivityIndicator
 } from 'react-native';
+import { NavigationScreenProp } from 'react-navigation';
+
+import Button from './Button';
+
+import Styles, { Variables } from "../styles";
 
 interface Props {
     loading: boolean;
+    navigation: NavigationScreenProp<any, any>;
 }
 
 export class Loader extends React.Component<Props> {
+    cancel = () => {
+        this.props.navigation.pop();
+    }
 
     render() {
         return (
@@ -21,6 +30,7 @@ export class Loader extends React.Component<Props> {
                 <View style={styles.modalBackground}>
                     <View style={styles.activityIndicatorWrapper}>
                         <ActivityIndicator animating={this.props.loading} />
+                        <Button title={"Cancelar"} onClick={this.cancel} style={[Styles.modalButton, { margin: 30 }]} titleStyle={Styles.modalButtonText} />
                     </View>
                 </View>
             </Modal>
@@ -38,8 +48,9 @@ const styles = StyleSheet.create({
     },
     activityIndicatorWrapper: {
         backgroundColor: '#FFFFFF',
-        height: 100,
-        width: 100,
+        height: 130,
+        width: 130,
+        padding: 10,
         borderRadius: 10,
         display: 'flex',
         alignItems: 'center',

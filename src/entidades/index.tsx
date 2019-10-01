@@ -5,6 +5,7 @@ import FichaFinanceiraAssistidoEntidade from "./FichaFinanceiraAssistidoEntidade
 import FuncionarioEntidade from "./FuncionarioEntidade";
 import HistRendasEntidade from "./HistRendasEntidade";
 import PlanosContratoEntidade from "./PlanosContratoEntidade";
+import PlanoVinculadoEntidade from "./PlanoVinculadoEntidade";
 import ProcessoBeneficioEntidade from "./ProcessoBeneficioEntidade";
 import RecebedorBeneficioEntidade from "./RecebedorBeneficioEntidade";
 
@@ -16,6 +17,7 @@ export {
 	FuncionarioEntidade,
 	HistRendasEntidade,
 	PlanosContratoEntidade,
+	PlanoVinculadoEntidade,
 	ProcessoBeneficioEntidade,
 	RecebedorBeneficioEntidade,
 }

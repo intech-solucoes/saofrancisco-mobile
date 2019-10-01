@@ -7,8 +7,11 @@ import { FichaFechamentoService, PlanoService } from "@intechprev/prevsystem-ser
 import { TextInputMask } from "react-native-masked-text";
 import ExtratoCodeprev from "./ExtratoCodeprev";
 import ExtratoSaldado from "./ExtratoSaldado";
+import { NavigationScreenProp } from "react-navigation";
 
-interface Props {}
+interface Props {
+    navigation: NavigationScreenProp<any, any>;
+}
 
 interface State {
     loading: boolean;
@@ -77,29 +80,29 @@ export class Extrato extends React.Component<Props, State> {
     render() {
         return (
             <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
-                <Loader loading={this.state.loading} />
+                <Loader loading={this.state.loading} {...this.props} />
 
                 {this.state.dataFim !== "" && 
                     <View>
                         {this.state.cdPlano !== "0003" &&
-                            <ExtratoCodeprev />
+                            <ExtratoCodeprev {...this.props} />
                         }
 
                         {this.state.cdPlano === "0003" &&
-                            <ExtratoSaldado />
+                            <ExtratoSaldado {...this.props} />
                         }
 
                         <Box>
-                            <View style={{ padding: 10, marginBottom: 10, flex: 1 }}>
-                                <Text>Data de Início:</Text>
+                            <View style={{ marginBottom: 20, flex: 1 }}>
+                                <Text style={{marginLeft: 10}}>Data de Início:</Text>
                                 <TextInputMask type={"datetime"} options={{ format: 'MM/yyyy' }} style={[Styles.textInput, { padding: 0, marginBottom: 0 }]} 
                                             placeholder={"00/0000"} underlineColorAndroid="transparent"
                                             value={this.state.dataInicio} onChangeText={value => this.setState({ dataInicio: value })} />
                             </View>
 
-                            <View style={{ padding: 10, marginBottom: 10, flex: 1 }}>
-                                <Text>Data Fim:</Text>
-                                <TextInputMask type={"datetime"} options={{ format: 'MM/yyyy' }} style={[Styles.textInput, { padding: 0, marginBottom: 0 }]} 
+                            <View style={{ marginBottom: 30, flex: 1 }}>
+                                <Text style={{ marginLeft: 10 }}>Data Fim:</Text>
+                                <TextInputMask type={"datetime"} options={{ format: 'MM/yyyy' }} style={[Styles.textInput]} 
                                             placeholder={"00/0000"} underlineColorAndroid="transparent"
                                             value={this.state.dataFim} onChangeText={value => this.setState({ dataFim: value })} />
                             </View>

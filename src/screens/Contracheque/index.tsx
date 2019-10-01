@@ -64,7 +64,7 @@ export class Contracheque extends Component<Props, State> {
     render() {
         return (
             <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
-                <Loader loading={this.state.loading} />
+                <Loader loading={this.state.loading} {...this.props} />
 
                 {this.state.especies.length > 0 && 
                     <View>

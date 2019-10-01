@@ -7,7 +7,7 @@ import { NavigationScreenProp } from "react-navigation";
 
 import { PlanoService, FuncionarioService, MensagemService } from "@intechprev/prevsystem-service";
 
-import { Box } from "../../components";
+import { Box, Alert } from "../../components";
 import Styles, { Variables } from "../../styles";
 
 interface Props { 
@@ -86,6 +86,12 @@ export class Mensagens extends React.Component<Props, State> {
                             })}
                         </Box>
                     </View>
+                }
+
+                {this.state.mensagens.length === 0 &&
+                    <Box>
+                        <Text>Nenhuma mensagem encontrada</Text>
+                    </Box>
                 }
             </ScrollView>
         );

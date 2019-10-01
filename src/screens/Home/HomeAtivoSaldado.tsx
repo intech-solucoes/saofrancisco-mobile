@@ -61,7 +61,7 @@ export class HomeAtivoSaldado extends Component<Props, State> {
             <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
                 {this.state.plano &&
                     <Grid>
-                        <Loader loading={this.state.loading} />
+                        <Loader loading={this.state.loading} {...this.props} />
                         <Alert ref={this.alerta} />
                         
                         <Row>

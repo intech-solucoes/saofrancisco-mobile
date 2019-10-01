@@ -45,8 +45,8 @@ export class Login extends React.Component<Props, State> {
 
         // Cria o state do componente
         this.state = {
-            //cpf: "55851240563",
-            //cpf: "22052615172",
+            //cpf: "18112463468",
+            //cpf: "56139810604",
             //senha: "123",
             cpf: "",
             senha: "",
@@ -151,7 +151,7 @@ export class Login extends React.Component<Props, State> {
         return (
             <Container subtitulo={"Bem vindo ao aplicativo da São Francisco"}>
                 <View>
-                    <Loader loading={this.state.loading} />
+                    <Loader loading={this.state.loading} {...this.props} />
                     <Alert ref={this.alerta} />
 
                     {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>

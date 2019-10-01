@@ -1,14 +1,16 @@
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
-import { TextInputMask } from "react-native-masked-text";
+import { Text, View } from "react-native";
 
 import { Loader, Box, CampoEstatico } from "../../components";
 
 import Styles, { Variables } from "../../styles";
 import { PlanoService } from "@intechprev/prevsystem-service";
 import { TipoCampoEstatico } from "../../components/CampoEstatico";
+import { NavigationScreenProp } from "react-navigation";
 
-interface Props {}
+interface Props {
+    navigation: NavigationScreenProp<any, any>;
+}
 
 interface State {
     loading: boolean;
@@ -40,7 +42,7 @@ export default class ExtratoCodeprev extends React.Component<Props, State> {
     render() {
         return (
             <View>
-                <Loader loading={this.state.loading} />
+                <Loader loading={this.state.loading} {...this.props} />
 
                 {this.state.extrato &&
                     <View>

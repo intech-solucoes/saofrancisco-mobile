@@ -65,7 +65,7 @@ export class HomeAtivo extends Component<Props, State> {
             <View>
                 {this.state.ultimaContribuicao &&
                     <Grid>
-                        <Loader loading={this.state.loading} />
+                        <Loader loading={this.state.loading} {...this.props} />
                         <Alert ref={this.alerta} />
                         
                         <Row>

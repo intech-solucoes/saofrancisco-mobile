@@ -1,39 +1,39 @@
 {
-	"expo": {
-		"name": "São Francisco",
-		"slug": "fsf",
-		"privacy": "public",
-		"sdkVersion": "33.0.0",
-		"platforms": [
-			"ios",
-			"android",
-			"web"
-		],
-		"version": "0.0.1",
-		"orientation": "portrait",
-		"icon": "./assets/icon.png",
-		"splash": {
-			"image": "./assets/splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
-		},
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": [
-			"**/*"
-		],
-		"ios": {
-			"supportsTablet": true,
-			"bundleIdentifier": "com.intech.saofrancisco"
-		},
-		"android": {
-			"package": "com.intech.saofrancisco",
-			"versionCode": 1
+    "expo": {
+        "name": "São Francisco",
+        "slug": "fsf",
+        "privacy": "public",
+        "sdkVersion": "33.0.0",
+        "platforms": [
+            "ios",
+            "android",
+            "web"
+        ],
+        "version": "0.0.4",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": [
+            "**/*"
+        ],
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.intech.saofrancisco"
+        },
+        "android": {
+            "package": "com.intech.saofrancisco",
+            "versionCode": 1
         },
         "androidStatusBar": {
             "barStyle": "dark-content",
             "backgroundColor": "#FFFFFF"
         }
-	}
+    }
 }

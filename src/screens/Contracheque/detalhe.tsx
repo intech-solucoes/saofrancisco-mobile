@@ -112,7 +112,7 @@ export class ContrachequeDetalhe extends Component<Props, State> {
     render() {
         return (
             <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
-                <Loader loading={this.state.loading} />
+                <Loader loading={this.state.loading} {...this.props} />
                 
                 {this.state.contracheque &&
                     <Box titulo={`Contracheque de ${this.state.dataReferencia.substring(3)}`}>

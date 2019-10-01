@@ -34,7 +34,7 @@ export class MensagemDetalhe extends React.Component<Props, State> {
         return (
             
             <ScrollView style={Styles.scrollContainer} contentContainerStyle={Styles.scrollContainerContent}>
-                <Loader loading={this.state.loading} />
+                <Loader loading={this.state.loading} {...this.props} />
                 
                 {this.state.mensagem &&
                     <Box titulo={this.state.mensagem.TXT_TITULO}>
