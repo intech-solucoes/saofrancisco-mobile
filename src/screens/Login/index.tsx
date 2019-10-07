@@ -119,16 +119,7 @@ export class Login extends React.Component<Props, State> {
                     if(dados.Usuario.IND_PRIMEIRO_ACESSO === "S") {
                         this.props.navigation.navigate("TrocarSenhaPrimeiroAcesso");
                     } else {
-                        var planos = await PlanoService.Buscar();
-                        if (planos.length > 1) 
-                            this.props.navigation.navigate("Planos");
-                        else {
-                            var plano = planos[0];
-                            await AsyncStorage.setItem("plano", plano.CD_PLANO.toString());
-                            await AsyncStorage.setItem("assistido", (plano.CD_CATEGORIA === "4").toString());
-
-                            this.props.navigation.navigate("Home");
-                        }
+                        this.props.navigation.navigate("Planos");
                     }
                 }
             }
