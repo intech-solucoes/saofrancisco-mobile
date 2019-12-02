@@ -1,4 +1,4 @@
-﻿import AdesaoDependenteEntidade from "./AdesaoDependenteEntidade";import AdesaoContribEntidade from "./AdesaoContribEntidade";import AdesaoPlanoEntidade from "./AdesaoPlanoEntidade";
+﻿import AdesaoDependenteEntidade from "./AdesaoDependenteEntidade";import AdesaoContribEntidade from "./AdesaoContribEntidade";import AdesaoPlanoEntidade from "./AdesaoPlanoEntidade";import AdesaoDocumentoEntidade from "./AdesaoDocumentoEntidade";
 
 export default class AdesaoEntidade {
 	public OID_ADESAO: number;
@@ -52,4 +52,5 @@ export default class AdesaoEntidade {
 	public Dependentes: Array<AdesaoDependenteEntidade>;
 	public Contrib: AdesaoContribEntidade;
 	public Plano: AdesaoPlanoEntidade;
+	public Documentos: Array<AdesaoDocumentoEntidade>;
 }

@@ -1,5 +1,5 @@
 import Button from "./Button";
-import CampoEstatico from "./CampoEstatico";
+import CampoEstatico, { TipoCampoEstatico } from "./CampoEstatico";
 import Loader from "./Loader";
 import Alert from "./Alert";
 import PopUp from "./PopUp";
@@ -10,6 +10,7 @@ import { AsyncAlert } from "./AsyncAlert";
 export {
     Button,
     CampoEstatico,
+    TipoCampoEstatico,
     Loader,
     Alert,
     PopUp,

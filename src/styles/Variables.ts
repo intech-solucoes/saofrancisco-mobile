@@ -9,6 +9,8 @@ export default {
         grayDarker: "#3D3D3D",
         red: "#EC4459",
         blue: "#4192C1",
-        green: "#69C675"
+        green: "#69C675",
+        yellow: "#FFF3CD",
+        yellowDark: "#856404"
     }
 };

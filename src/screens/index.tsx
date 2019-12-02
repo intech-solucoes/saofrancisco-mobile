@@ -5,6 +5,7 @@ import { Home } from "./Home";
 import { Dados } from "./Dados";
 import { Contracheque } from "./Contracheque";
 import { ContrachequeDetalhe } from "./Contracheque/detalhe";
+import { SimuladorCodeprev } from "./SimuladorCodeprev";
 import { InformeRendimentos } from "./InformeRendimentos";
 import { Mensagens } from "./Mensagens";
 import { MensagemDetalhe } from "./Mensagens/detalhe";
@@ -27,6 +28,7 @@ export {
     Dados,
     Contracheque,
     ContrachequeDetalhe,
+    SimuladorCodeprev,
     InformeRendimentos,
     Mensagens,
     MensagemDetalhe,

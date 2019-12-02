@@ -16,6 +16,7 @@ import {
     Contracheque,
     Extrato,
     ContrachequeDetalhe,
+    SimuladorCodeprev,
     InformeRendimentos,
     Mensagens,
     MensagemDetalhe,
@@ -24,6 +25,8 @@ import {
     PrimeiroAcesso
 } from './screens';
 import { TouchableOpacity } from 'react-native';
+import { Maior8 } from "./screens/SimuladorCodeprev/Maior8";
+import { Menor8 } from "./screens/SimuladorCodeprev/Menor8";
 
 var MainStack = createStackNavigator({
     Home,
@@ -31,6 +34,13 @@ var MainStack = createStackNavigator({
     Contracheque,
     Extrato,
     ContrachequeDetalhe,
+    SimuladorCodeprev,
+    SimuladorCodeprevMaior8: {
+        screen: Maior8
+    },
+    SimuladorCodeprevMenor8: {
+        screen: Menor8
+    },
     InformeRendimentos,
     Mensagens,
     MensagemDetalhe,

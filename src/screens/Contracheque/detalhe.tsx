@@ -98,7 +98,6 @@ export class ContrachequeDetalhe extends Component<Props, State> {
                 await AsyncAlert(resultado);
             }, 500);
         }  catch(err) {
-            await this.setState({ loading: false });
 
             if(err.response) {
                 await AsyncAlert(err.response.data);
@@ -106,6 +105,8 @@ export class ContrachequeDetalhe extends Component<Props, State> {
             else {
                 await AsyncAlert(err);
             }
+        } finally {
+            await this.setState({ loading: false });
         }
     }
 

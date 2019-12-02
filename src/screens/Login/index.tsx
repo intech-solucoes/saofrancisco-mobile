@@ -12,6 +12,7 @@ import loginStyles from "./styles";
 import { UsuarioService, FuncionarioService, PlanoService, LGPDService } from "@intechprev/prevsystem-service";
 import { NavigationScreenProp } from 'react-navigation';
 import { TextInputMask } from 'react-native-masked-text';
+import { Session } from "@intechprev/service";
 
 interface Props {
     navigation: NavigationScreenProp<any, any>;
@@ -46,8 +47,8 @@ export class Login extends React.Component<Props, State> {
         // Cria o state do componente
         this.state = {
             //cpf: "18112463468",
-            //cpf: "56139810604",
-            //senha: "123",
+            // cpf: "56139810604",
+            // senha: "123",
             cpf: "",
             senha: "",
             lembrar: false,
@@ -101,8 +102,8 @@ export class Login extends React.Component<Props, State> {
             else {
                 var login = await UsuarioService.Login(this.state.cpf, this.state.senha);
                 
+                await Session.setToken(login.AccessToken);
                 await AsyncStorage.setItem("pensionista", login.Pensionista.toString());
-                await AsyncStorage.setItem("token", login.AccessToken);
 
                 var funcionarioData = await FuncionarioService.Buscar();
 

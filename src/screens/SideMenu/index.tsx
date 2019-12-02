@@ -4,7 +4,7 @@ import { NavigationActions, NavigationScreenProp } from 'react-navigation';
 import Constants from 'expo-constants';
 
 import { FontAwesomeIcon } from 'expo-fontawesome';
-import { faHome, faUser, faAddressBook, faFile, faEnvelope, faClosedCaptioning, faChartPie, faComment, faUnlock, faExchangeAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUser, faFile, faEnvelope, faClosedCaptioning, faChartPie, faComment, faExchangeAlt, faSignOutAlt, faChartBar, faKey } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './index.style';
 import { Variables } from '../../styles';
@@ -29,6 +29,7 @@ interface State {
     loading: boolean;
     assistido: boolean;
     pensionista: boolean;
+    cdPlano: string;
 }
 
 export class SideMenu extends Component<Props, State> {
@@ -38,7 +39,8 @@ export class SideMenu extends Component<Props, State> {
         this.state = {
             loading: false,
             assistido: false,
-            pensionista: false
+            pensionista: false,
+            cdPlano: ""
         }
     }
 
@@ -56,10 +58,12 @@ export class SideMenu extends Component<Props, State> {
     carregarPlano = async () => {
         var assistido = await AsyncStorage.getItem("assistido");
         var pensionista = await AsyncStorage.getItem("pensionista");
+        var cdPlano = await AsyncStorage.getItem("plano");
 
         await this.setState({ 
             assistido: assistido === "true",
-            pensionista: pensionista === "true"
+            pensionista: pensionista === "true",
+            cdPlano
         });
     }
 
@@ -82,10 +86,14 @@ export class SideMenu extends Component<Props, State> {
                         {(!this.state.assistido && !this.state.pensionista) && 
                             <MenuItem onPress={this.navigateToScreen('Extrato')} icon={faFile} title="Extrato" />}
 
+                        {this.state.cdPlano === "0002" && 
+                            <MenuItem onPress={this.navigateToScreen('SimuladorCodeprev')} icon={faChartBar} title="Simulador de Benefícios" />
+                        }
+
                         <MenuItem onPress={this.navigateToScreen('InformeRendimentos')} icon={faChartPie} title="Informe de Rendimentos" />
                         <MenuItem onPress={this.navigateToScreen('Mensagens')} icon={faEnvelope} title="Mensagens" />
                         <MenuItem onPress={this.navigateToScreen('Relacionamento')} icon={faComment} title="Relacionamento" />
-                        <MenuItem onPress={this.navigateToScreen('TrocarSenha')} icon={faUnlock} title="Trocar Senha" />
+                        <MenuItem onPress={this.navigateToScreen('TrocarSenha')} icon={faKey} title="Trocar Senha" />
                         <MenuItem onPress={this.navigateToScreen('Planos')} icon={faExchangeAlt} title="Selecionar Plano" />
                         <MenuItem onPress={this.navigateToScreen('Login')} icon={faSignOutAlt} title="Sair" />
                     </View>

@@ -1,6 +1,6 @@
 {
     "main": "node_modules/expo/AppEntry.js",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "scripts": {
         "start": "node build.js --env dev && expo start",
         "android:build": "node build.js && expo build:android",
@@ -12,7 +12,8 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.19",
         "@fortawesome/free-solid-svg-icons": "^5.9.0",
         "@intechprev/prevsystem-service": "file:../prevsystem-service",
-        "@intechprev/react-lib": "^1.0.4",
+        "@intechprev/react-lib": "^1.1.1",
+        "@intechprev/service": "^2.2.10",
         "@types/expo": "^32.0.13",
         "@types/lodash": "^4.14.136",
         "@types/moment": "^2.13.0",

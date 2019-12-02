@@ -1,4 +1,6 @@
-﻿export default class FuncionarioEntidade {
+﻿
+
+export default class FuncionarioEntidade {
 	public CD_FUNDACAO: string;
 	public NUM_INSCRICAO: string;
 	public COD_ENTID: number;
@@ -8,10 +10,10 @@
 	public CD_FUNCAO: string;
 	public CD_LOTACAO: string;
 	public CD_NIVEL_SALARIAL: string;
-	public CD_MOTIVO_DEMISSAO: string;
 	public DT_ADMISSAO?: Date;
 	public CD_SIT_EMPRESA: string;
 	public DT_SITUACAO_EMPRESA?: Date;
+	public CD_MOTIVO_DEMISSAO: string;
 	public DT_DEMISSAO?: Date;
 	public AUTO_MANTENEDOR: string;
 	public FONE_TRAB: string;
@@ -28,7 +30,6 @@
 	public CD_EMP_NEW: string;
 	public NUM_PROTOCOLO: string;
 	public DT_RECADASTRO?: Date;
-	public NUM_INSCRICAO_ORIGEM: string;
 	public COD_VINC: string;
 	public COD_CERTA: string;
 	public COD_ORIGEM: string;
@@ -42,6 +43,7 @@
 	public DT_APOSENT?: Date;
 	public CD_APOSENT_SUJ: string;
 	public EMAIL_FUNC: string;
+	public CK_INADIPLENTE: string;
 	public EXTRATO_IMPRESSO: string;
 	public DT_VINCULO_FUNDACAO?: Date;
 	public IND_ELEGIBILIDADE: string;

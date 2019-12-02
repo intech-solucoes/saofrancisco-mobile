@@ -42,7 +42,7 @@ export default class CampoEstatico extends React.Component<Props> {
                     <TextMask style={[styles.valor, this.props.style]} type={'money'} value={this.props.valor} />}
 
                 {this.props.tipo === TipoCampoEstatico.texto &&
-                    <Text style={[styles.valor]}>{this.props.valor}</Text>}
+                    <Text style={[styles.valor, this.props.style]}>{this.props.valor}</Text>}
             </View>
         );
     }

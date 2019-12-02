@@ -50,7 +50,7 @@ export class Planos extends React.Component<Props, State> {
         this.state = {
             loading: false,
             dados: {
-                dadosPessoais: {}
+                dadosPessoais: { }
             },
             planos: [],
             matriculas: [],
@@ -140,7 +140,7 @@ export class Planos extends React.Component<Props, State> {
                 {!this.state.loading &&
                     <View>
                         <Text style={Styles.h3}>Olá,</Text>
-                        <Text style={[ Styles.h1, styles.header ]}>{this.state.dados.dadosPessoais.NOME_ENTID}</Text>
+                        <Text style={[ Styles.h1, styles.header ]}>{this.state.dados.NOME_ENTID}</Text>
                         
                         {!this.state.matriculaSelecionada && 
                             <View>
