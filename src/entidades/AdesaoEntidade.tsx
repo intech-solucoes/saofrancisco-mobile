@@ -53,4 +53,6 @@ export default class AdesaoEntidade {
 	public Contrib: AdesaoContribEntidade;
 	public Plano: AdesaoPlanoEntidade;
 	public Documentos: Array<AdesaoDocumentoEntidade>;
+	public IPV4: string;
+	public IPV6: string;
 }
