@@ -22,6 +22,7 @@ interface State {
     dataAposentadoria: any;
     processoBeneficio: any;
     calendario: Array<any>;
+    nenhumProcesso: boolean;
 }
 
 export class HomeAssistido extends Component<Props, State> {
@@ -36,13 +37,14 @@ export class HomeAssistido extends Component<Props, State> {
             ultimaFolha: null,
             dataAposentadoria: null,
             processoBeneficio: null,
-            calendario: null
+            calendario: null,
+            nenhumProcesso: false
         }
     }
 
     componentDidMount = async () => {
         this.setState({ loading: true });
-        
+
         await this.carregarPlano();
 
         this.setState({ loading: false });
@@ -53,16 +55,20 @@ export class HomeAssistido extends Component<Props, State> {
     }
 
     carregarPlano = async () => {
-        var processoBeneficio = await ProcessoBeneficioService.BuscarPorPlano(this.props.plano.CD_PLANO);
-        
-        if(processoBeneficio.length > 0) {
-            var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlanoProcesso(this.props.plano.CD_PLANO, processoBeneficio[0].CD_ESPECIE, processoBeneficio[0].ANO_PROCESSO, processoBeneficio[0].NUM_PROCESSO);
+        var processosBeneficio = await ProcessoBeneficioService.BuscarPorPlano(this.props.plano.CD_PLANO);
+
+        if (processosBeneficio.length > 0) {
+            var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlanoProcesso(this.props.plano.CD_PLANO, processosBeneficio[0].CD_ESPECIE, processosBeneficio[0].ANO_PROCESSO, processosBeneficio[0].NUM_PROCESSO);
             var calendario = await CalendarioPagamentoService.BuscarPorPlano(this.props.plano.CD_PLANO);
-            
-            await this.setState({ 
-                ultimaFolha, 
-                processoBeneficio: processoBeneficio[0],
-                calendario 
+
+            await this.setState({
+                ultimaFolha,
+                processoBeneficio: processosBeneficio[0],
+                calendario
+            });
+        } else {
+            await this.setState({
+                nenhumProcesso: true
             });
         }
     }
@@ -83,13 +89,13 @@ export class HomeAssistido extends Component<Props, State> {
                     <Grid>
                         <Loader loading={this.state.loading} {...this.props} />
                         <Alert ref={this.alerta} />
-                        
+
                         <Row>
                             <HomeCard titulo={this.props.plano.DS_PLANO} texto>
                                 {this.props.plano.DS_CATEGORIA}
                             </HomeCard>
                         </Row>
-                        
+
                         <Row>
                             <HomeCard titulo={"Situação"} texto>
                                 {this.state.processoBeneficio.DS_ESPECIE}
@@ -101,7 +107,7 @@ export class HomeAssistido extends Component<Props, State> {
                                 {this.state.processoBeneficio.DT_INICIO_FUND}
                             </HomeCard>
                         </Row>
-                        
+
                         {this.state.processoBeneficio.SALDO_ATUAL > 0 &&
                             <View>
                                 <Row>
@@ -109,20 +115,20 @@ export class HomeAssistido extends Component<Props, State> {
                                         {this.state.processoBeneficio.SALDO_ATUAL}
                                     </HomeCard>
                                 </Row>
-                                
+
                                 <Row>
                                     <HomeCard titulo={"Renda - % SCAA"} texto>
                                         {this.state.processoBeneficio.VL_PARCELA_MENSAL}%
                                     </HomeCard>
                                 </Row>
-                                
+
                                 <Row>
                                     <HomeCard titulo={"Provável Encerramento do Benefício"} texto>
                                         {this.state.processoBeneficio.DT_APOSENTADORIA}
                                     </HomeCard>
                                 </Row>
-                                
-                                {this.props.plano.CD_PLANO !== "0001" && 
+
+                                {this.props.plano.CD_PLANO !== "0001" &&
                                     <Row>
                                         <HomeCard titulo={"Regime de Tributação"} texto>
                                             {this.props.plano.TIPO_IRRF === "2" ? "Regressivo" : "Progressivo"}
@@ -143,9 +149,9 @@ export class HomeAssistido extends Component<Props, State> {
                                                 var usaBorda = this.state.ultimaFolha.Proventos.length > 1 && index < this.state.ultimaFolha.Proventos.length;
 
                                                 var borda = {};
-                                                if(usaBorda)
+                                                if (usaBorda)
                                                     borda = { marginTop: 10, paddingTop: 10, borderBottomColor: "#CCC", borderBottomWidth: 1 };
-                                                    
+
                                                 return (
                                                     <Row key={index} style={borda}>
                                                         <Col>
@@ -212,7 +218,7 @@ export class HomeAssistido extends Component<Props, State> {
                                             var usaBorda = this.state.calendario.length > 1 && index < this.state.calendario.length - 1;
 
                                             var borda = {};
-                                            if(usaBorda)
+                                            if (usaBorda)
                                                 borda = { marginTop: 10, paddingBottom: 10, borderBottomColor: "#CCC", borderBottomWidth: 1 };
                                             else
                                                 borda = { marginTop: 10 }
@@ -235,8 +241,16 @@ export class HomeAssistido extends Component<Props, State> {
                     </Grid>
                 }
 
-                {!this.state.calendario &&
-                    <Text>Carregando...</Text>
+                {!this.state.calendario && !this.state.nenhumProcesso &&
+                    <Box>
+                        <Text>Carregando...</Text>
+                    </Box>
+                }
+
+                {this.state.nenhumProcesso &&
+                    <Box>
+                        <Text style={{ color: Variables.colors.red }}>Nenhum processo de benefício disponível para este plano.</Text>
+                    </Box>
                 }
             </ScrollView>
         )

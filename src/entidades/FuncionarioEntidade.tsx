@@ -43,7 +43,6 @@ export default class FuncionarioEntidade {
 	public DT_APOSENT?: Date;
 	public CD_APOSENT_SUJ: string;
 	public EMAIL_FUNC: string;
-	public CK_INADIPLENTE: string;
 	public EXTRATO_IMPRESSO: string;
 	public DT_VINCULO_FUNDACAO?: Date;
 	public IND_ELEGIBILIDADE: string;
@@ -57,4 +56,5 @@ export default class FuncionarioEntidade {
 	public CPF_CGC: string;
 	public PENSIONISTA: string;
 	public CD_PLANO: string;
+	public CD_SIT_PLANO: string;
 }

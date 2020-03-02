@@ -32,6 +32,13 @@ export default class ProcessoBeneficioEntidade {
 	public FATOR_ALIQUOTA?: number;
 	public CD_CARGO: string;
 	public CD_NIVEL_SALARIAL: string;
+	public PROC_REVISAO: string;
+	public DT_ULTIMA_REVISAO?: Date;
+	public SALDO_RISCO?: number;
+	public DT_PREV_PAGTO_SAQUE?: Date;
+	public DT_PAGTO_SAQUE?: Date;
+	public CD_CALC_REGRESSIVO: string;
+	public VL_PMP?: number;
 	public CD_OPCAO_RECEB_RENDA: string;
 	public CD_OPCAO_RECEB_BP: string;
 	public CD_OPCAO_RECEB_BAV: string;
@@ -44,13 +51,6 @@ export default class ProcessoBeneficioEntidade {
 	public PRAZO_RECEB?: number;
 	public DT_ULTIMO_PROCESSAMENTO?: Date;
 	public CD_TIPO_CALC_CD?: number;
-	public PROC_REVISAO: string;
-	public DT_ULTIMA_REVISAO?: Date;
-	public SALDO_RISCO?: number;
-	public DT_PREV_PAGTO_SAQUE?: Date;
-	public DT_PAGTO_SAQUE?: Date;
-	public CD_CALC_REGRESSIVO: string;
-	public VL_PMP?: number;
 	public CD_PLANO_SALARIAL: string;
 	public TIPO_PAGTO_TAXA: string;
 	public ID_COMP_LIQUID: string;

@@ -47,8 +47,8 @@ export class Login extends React.Component<Props, State> {
         // Cria o state do componente
         this.state = {
             //cpf: "18112463468",
-            // cpf: "56139810604",
-            // senha: "123",
+            //cpf: "17366208787",
+            //senha: "123",
             cpf: "",
             senha: "",
             lembrar: false,

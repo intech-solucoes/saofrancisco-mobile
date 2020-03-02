@@ -86,9 +86,9 @@ export class SideMenu extends Component<Props, State> {
                         {(!this.state.assistido && !this.state.pensionista) && 
                             <MenuItem onPress={this.navigateToScreen('Extrato')} icon={faFile} title="Extrato" />}
 
-                        {this.state.cdPlano === "0002" && 
+                        {/* {this.state.cdPlano === "0002" && 
                             <MenuItem onPress={this.navigateToScreen('SimuladorCodeprev')} icon={faChartBar} title="Simulador de Benefícios" />
-                        }
+                        } */}
 
                         <MenuItem onPress={this.navigateToScreen('InformeRendimentos')} icon={faChartPie} title="Informe de Rendimentos" />
                         <MenuItem onPress={this.navigateToScreen('Mensagens')} icon={faEnvelope} title="Mensagens" />

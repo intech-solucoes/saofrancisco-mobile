@@ -39,7 +39,7 @@ export class Home extends Component<Props, State> {
             dados: {
                 dadosPessoais: {}
             },
-            processosBeneficio: {},
+            processosBeneficio: [],
             processo: {},
             especieAnoNumProcesso: "",
         }
@@ -110,20 +110,21 @@ export class Home extends Component<Props, State> {
         var cdPlano = await AsyncStorage.getItem("plano");
         var plano = await PlanoService.BuscarPorCodigo(cdPlano);
 
-        if(plano.CD_CATEGORIA === "4") {
+        if (plano.CD_CATEGORIA === "4") {
             var processosBeneficio = await ProcessoBeneficioService.BuscarPorPlano(cdPlano);
-        
-            var processo = processosBeneficio[0];
-            var especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
-            
-            await this.setState({
-                processosBeneficio,
-                processo,
-                especieAnoNumProcesso
-            });
+            if (processosBeneficio.length > 0) {
+                var processo = processosBeneficio[0];
+                var especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
+
+                await this.setState({
+                    processosBeneficio,
+                    processo,
+                    especieAnoNumProcesso
+                });
+            }
         }
-        
-        await this.setState({ 
+
+        await this.setState({
             plano
         });
 
@@ -139,12 +140,12 @@ export class Home extends Component<Props, State> {
     }
 
     renderHome = () => {
-        if(this.state.plano) {
-            if(this.state.plano.CD_PLANO === "0003" && this.state.plano.CD_CATEGORIA === "1")
+        if (this.state.plano) {
+            if (this.state.plano.CD_PLANO === "0003" && this.state.plano.CD_CATEGORIA === "1")
                 return <HomeAtivoSaldado {...this.props} plano={this.state.plano} />;
-            else if(this.state.plano.CD_PLANO !== "0003" && this.state.plano.CD_CATEGORIA === "1")
+            else if (this.state.plano.CD_PLANO !== "0003" && this.state.plano.CD_CATEGORIA === "1")
                 return <HomeAtivo {...this.props} plano={this.state.plano} />;
-            else if(this.state.plano.CD_CATEGORIA === "4")
+            else if (this.state.plano.CD_CATEGORIA === "4")
                 return <HomeAssistido ref={this.homeAssistido} {...this.props} plano={this.state.plano} />;
         }
         return <Text>Carregando...</Text>;
@@ -159,13 +160,13 @@ export class Home extends Component<Props, State> {
                     barStyle={'light-content'}
                     backgroundColor={Variables.colors.primary}
                 />
-                
+
                 <View>
                     {this.state.processosBeneficio.length > 1 &&
                         <Box titulo={"Selecione um processo de benefício:"}>
                             <DropDown titulo={"Selecione um processo"} valor={this.state.processo}
-                                    itens={this.state.processosBeneficio} nomeMembro={"DS_PROCESSO"}
-                                    onValueChange={(itemValue: any) => this.carregarProcesso(itemValue)} />
+                                itens={this.state.processosBeneficio} nomeMembro={"DS_PROCESSO"}
+                                onValueChange={(itemValue: any) => this.carregarProcesso(itemValue)} />
                         </Box>
                     }
 

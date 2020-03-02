@@ -5,7 +5,6 @@ export default class UsuarioEntidade {
 	public NOM_LOGIN: string;
 	public PWD_USUARIO: string;
 	public IND_BLOQUEADO: string;
-	public DTA_EXPIRACAO?: Date;
 	public NUM_TENTATIVA: number;
 	public DES_LOTACAO: string;
 	public IND_ADMINISTRADOR: string;
@@ -16,4 +15,5 @@ export default class UsuarioEntidade {
 	public DTA_ATUALIZACAO?: Date;
 	public CD_EMPRESA: string;
 	public SEQ_RECEBEDOR?: number;
+	public IND_PRIMEIRO_ACESSO: string;
 }

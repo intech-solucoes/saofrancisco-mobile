@@ -7,6 +7,7 @@ import { DadosPessoaisService, PlanoService, UsuarioService, FuncionarioService 
 
 import Styles, { Variables } from "../../styles";
 import { Button } from "../../components";
+import { Session } from "@intechprev/service";
 
 const styles = {
     header: {
@@ -36,6 +37,7 @@ interface State {
     dados: any;
     matriculas: Array<any>;
     matriculaSelecionada: boolean;
+    pensionista: boolean;
 }
 
 export class Planos extends React.Component<Props, State> {
@@ -54,7 +56,8 @@ export class Planos extends React.Component<Props, State> {
             },
             planos: [],
             matriculas: [],
-            matriculaSelecionada: false
+            matriculaSelecionada: false,
+            pensionista: false
         }
     }
 
@@ -97,11 +100,13 @@ export class Planos extends React.Component<Props, State> {
             await AsyncStorage.setItem("empresa", funcionarioResult.Funcionario.CD_EMPRESA);
 
             var funcionarioLogin = await UsuarioService.SelecionarMatricula(matricula);
-            await AsyncStorage.setItem("token", funcionarioLogin.AccessToken);
+            await Session.setToken(funcionarioLogin.AccessToken);
+            await AsyncStorage.setItem("pensionista", funcionarioLogin.Pensionista.toString());
             await AsyncStorage.setItem("admin", funcionarioLogin.Admin);
 
             await this.setState({
-                matriculaSelecionada: true
+                matriculaSelecionada: true,
+                pensionista: funcionarioLogin.Pensionista
             });
 
             await this.carregarPlanos();
@@ -165,7 +170,8 @@ export class Planos extends React.Component<Props, State> {
                                 <View>
                                     {this.state.planos.map((plano, index) => (
                                         <View key={index} style={{ marginBottom: 20 }}>
-                                            <Button title={plano.DS_PLANO} subtitle={plano.DS_CATEGORIA} 
+                                            <Button title={plano.DS_PLANO} 
+                                                    subtitle={this.state.pensionista ? "PENSIONISTA" : plano.DS_CATEGORIA} 
                                                     titleStyle={[Styles.h2, styles.buttonText]}
                                                     onClick={() => this.selecionarPlano(plano)} />
                                         </View>
