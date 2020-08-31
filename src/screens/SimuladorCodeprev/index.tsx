@@ -8,8 +8,7 @@ import { PlanoService, FuncionarioService, FichaFechamentoService, FichaFinancei
 
 import Styles, { Variables } from "../../styles";
 import { CampoEstatico, Button, Box, TipoCampoEstatico } from "../../components";
-import { FontAwesomeIcon } from "expo-fontawesome";
-import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 
 interface Props {
@@ -215,8 +214,8 @@ export class SimuladorCodeprev extends React.Component<Props, State> {
                                     }
                                 ]}
                                 >
-                                    <FontAwesomeIcon
-                                        icon={this.state.termoAceito ? faCheck : faTimes}
+                                    <Icon
+                                        name={this.state.termoAceito ? 'check' : 'times'}
                                         style={{ marginRight: 10 }}
                                         color={"#FFF"} size={16}
                                     />

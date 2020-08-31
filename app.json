@@ -3,13 +3,12 @@
         "name": "São Francisco",
         "slug": "fsf",
         "privacy": "public",
-        "sdkVersion": "33.0.0",
         "platforms": [
             "ios",
             "android",
             "web"
         ],
-        "version": "0.2.1",
+        "version": "0.2.2",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "splash": {
@@ -29,7 +28,7 @@
         },
         "android": {
             "package": "com.intech.saofrancisco",
-            "versionCode": 1
+            "versionCode": 8
         },
         "androidStatusBar": {
             "barStyle": "dark-content",

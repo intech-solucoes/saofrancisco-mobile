@@ -3,8 +3,7 @@ import { ScrollView, Text, View, Image, TouchableHighlight, AsyncStorage } from 
 import { NavigationActions, NavigationScreenProp } from 'react-navigation';
 import Constants from 'expo-constants';
 
-import { FontAwesomeIcon } from 'expo-fontawesome';
-import { faHome, faUser, faFile, faEnvelope, faClosedCaptioning, faChartPie, faComment, faExchangeAlt, faSignOutAlt, faChartBar, faKey } from '@fortawesome/free-solid-svg-icons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import styles from './index.style';
 import { Variables } from '../../styles';
@@ -13,7 +12,7 @@ const MenuItem = (props: any) => {
     return (
         <TouchableHighlight onPress={props.onPress} underlayColor={Variables.colors.gray}>
             <View style={styles.navItemStyle}>
-                <FontAwesomeIcon icon={props.icon} style={styles.navIcon} />
+                <Icon name={props.icon} style={styles.navIcon} size={18} />
                 <Text style={styles.navText}>
                     {props.title}
                 </Text>
@@ -77,25 +76,25 @@ export class SideMenu extends Component<Props, State> {
 
                     <View style={styles.navSectionStyle}>
 
-                    <MenuItem onPress={this.navigateToScreen('Home')} icon={faHome} title="Início" />
-                        <MenuItem onPress={this.navigateToScreen('Dados')} icon={faUser} title="Seus Dados" />
+                    <MenuItem onPress={this.navigateToScreen('Home')} icon={'home'} title="Início" />
+                        <MenuItem onPress={this.navigateToScreen('Dados')} icon={'user'} title="Seus Dados" />
                         
                         {(this.state.assistido || this.state.pensionista) && 
-                            <MenuItem onPress={this.navigateToScreen('Contracheque')} icon={faClosedCaptioning} title="Contracheque" />}
+                            <MenuItem onPress={this.navigateToScreen('Contracheque')} icon={'closed-captioning'} title="Contracheque" />}
                         
                         {(!this.state.assistido && !this.state.pensionista) && 
-                            <MenuItem onPress={this.navigateToScreen('Extrato')} icon={faFile} title="Extrato" />}
+                            <MenuItem onPress={this.navigateToScreen('Extrato')} icon={'file'} title="Extrato" />}
 
-                        {/* {this.state.cdPlano === "0002" && 
-                            <MenuItem onPress={this.navigateToScreen('SimuladorCodeprev')} icon={faChartBar} title="Simulador de Benefícios" />
-                        } */}
+                        {this.state.cdPlano === "0002" && 
+                            <MenuItem onPress={this.navigateToScreen('SimuladorCodeprev')} icon={'chart-bar'} title="Simulador de Benefícios" />
+                        }
 
-                        <MenuItem onPress={this.navigateToScreen('InformeRendimentos')} icon={faChartPie} title="Informe de Rendimentos" />
-                        <MenuItem onPress={this.navigateToScreen('Mensagens')} icon={faEnvelope} title="Mensagens" />
-                        <MenuItem onPress={this.navigateToScreen('Relacionamento')} icon={faComment} title="Relacionamento" />
-                        <MenuItem onPress={this.navigateToScreen('TrocarSenha')} icon={faKey} title="Trocar Senha" />
-                        <MenuItem onPress={this.navigateToScreen('Planos')} icon={faExchangeAlt} title="Selecionar Plano" />
-                        <MenuItem onPress={this.navigateToScreen('Login')} icon={faSignOutAlt} title="Sair" />
+                        <MenuItem onPress={this.navigateToScreen('InformeRendimentos')} icon={'chart-pie'} title="Informe de Rendimentos" />
+                        <MenuItem onPress={this.navigateToScreen('Mensagens')} icon={'envelope'} title="Mensagens" />
+                        <MenuItem onPress={this.navigateToScreen('Relacionamento')} icon={'comment'} title="Relacionamento" />
+                        <MenuItem onPress={this.navigateToScreen('TrocarSenha')} icon={'key'} title="Trocar Senha" />
+                        <MenuItem onPress={this.navigateToScreen('Planos')} icon={'exchange-alt'} title="Selecionar Plano" />
+                        <MenuItem onPress={this.navigateToScreen('Login')} icon={'sign-out-alt'} title="Sair" />
                     </View>
 
                     <View style={styles.footerContainer}>

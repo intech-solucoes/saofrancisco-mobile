@@ -1,7 +1,6 @@
 import React from "react";
 import { createStackNavigator, createDrawerNavigator, createAppContainer } from 'react-navigation';
-import { FontAwesomeIcon } from 'expo-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { Variables } from './styles';
 
@@ -63,7 +62,7 @@ var MainStack = createStackNavigator({
             headerTintColor: '#fff',
             headerRight: (
                 <TouchableOpacity onPress={() => props.navigation.toggleDrawer()} style={{ padding: 10 }}>
-                    <FontAwesomeIcon icon={faBars} style={{ color: 'white' }} />
+                    <Icon name={'bars'} style={{ color: 'white' }} size={20} />
                 </TouchableOpacity>
             )
         }
